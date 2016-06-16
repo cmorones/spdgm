@@ -80,7 +80,7 @@ foreach ($resultado as $row) {
 
 		
 		if( !isset($json['informe'][$nomband][$row["bandera"]]) ): 
-			$json['informe'][$nomband][$row["fecha_ingreso"]] = array(
+			$json['informe'][$nomband][$row["fecha_ingreso"].$row['id']] = array(
 			  'fecha'=> $row['fecha_ingreso'],
 			  'folio'=> $row['folio'],
 			  'docto'=> $doc,

@@ -1729,7 +1729,14 @@ $filtro .="detalle like '%$observa%' AND ";
 }
 
 
-if($id_bandera !=""){
+/*if($id_bandera !=""){
+	$filtro .="bandera =$id_bandera AND ";
+}*/
+
+
+if($id_bandera ==-1){
+	$filtro .="bandera <>1 AND ";
+}elseif($id_bandera !=""){
 	$filtro .="bandera =$id_bandera AND ";
 }
 
@@ -1743,7 +1750,7 @@ if( !empty( $filtro ) ){
 
 
 
-$q = "SELECT id, area, folio, proveedor, concepto, detalle,
+ $q = "SELECT id, area, folio, proveedor, concepto, detalle,
   		     fecha_contrarecibo, no_contrarecibo, subprog, bandera, partida, fecha_ingreso, importe, factura 
   		     FROM 
   		     base_cap ".$filtro2."

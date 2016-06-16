@@ -279,6 +279,7 @@ $this->widget('ext.select2.ESelect2',array(
 <?php 
 
 $bandera = array();
+$bandera[-1] = 'TODOS LOS INGRESOS EXTRAORDINARIOS';
 $bandera[0] = 'TODAS';
 
 $resultpprov = Banderas::model()->findAll((array(
