@@ -56,8 +56,8 @@ if($perfil==1){
 
                               array('label'=>'Gastos<span class="caret"></span>', 'url'=>'#','itemOptions'=>array('class'=>'dropdown','tabindex'=>"-1"),'linkOptions'=>array('class'=>'dropdown-toggle','data-toggle'=>"dropdown"),                     'items'=>array(
                               array('label'=>'Mostrar Gastos', 'url'=>array('/baseCap/index', 'view'=>'about')),
-                              array('label'=>'Operaciones con Terceros', 'url'=>array('/base/index', 'view'=>'about')),
-                              array('label'=>'Informe declaración Informativa', 'url'=>array('/base/infdiot', 'view'=>'about')),
+                            //  array('label'=>'Operaciones con Terceros', 'url'=>array('/base/index', 'view'=>'about')),
+                            //  array('label'=>'Informe declaración Informativa', 'url'=>array('/base/infdiot', 'view'=>'about')),
                          //    array('label'=>'Agregar Gasto', 'url'=>array('/baseCap/create', 'view'=>'forms')),
                          //   array('label'=>'Listar Gastos 2014', 'url'=>array('/baseCap/admin2', 'view'=>'about')),
                         //   array('label'=>'Listar Gastos 2015', 'url'=>array('/baseCap/admin4', 'view'=>'about')),
@@ -70,7 +70,7 @@ if($perfil==1){
                        'items'=>array(
                                 array('label'=>'Mostrar Pagos', 'url'=>array('/pagos/index', 'view'=>'about')),
                                 array('label'=>'Informe de Pagos', 'url'=>array('/informesp/index', 'view'=>'forms')),
-                                array('label'=>'Generar Poliza', 'url'=>array('/pagos/poliza', 'view'=>'forms')),
+                             //   array('label'=>'Generar Poliza', 'url'=>array('/pagos/poliza', 'view'=>'forms')),
                          
                           //  array('label'=>'Agregar Ingreso', 'url'=>array('/baseIng/create', 'view'=>'forms')),
                          //   array('label'=>'Listar Ingresos 2013', 'url'=>array('/baseIng/admin', 'view'=>'about')),

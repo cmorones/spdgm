@@ -18,6 +18,24 @@ class Utilities {
 	
 
 	}
+
+	public static function infoBAndera($id_bandera){
+
+
+	$sql_lid = "SELECT nombre
+	  
+	FROM 
+	  banderas 
+	WHERE 
+	  id=$id_bandera";
+
+		
+		$area = Yii::app()->db->createCommand($sql_lid)->queryRow();		
+	
+			return $area['nombre']; 
+	
+
+	}
 	
 	/*public static function formatDate($date, $format = 'Y-m-d H:i:s') {
 		return DateTime::createFromFormat($format, $date)->format('M. j, Y');

@@ -1,40 +1,116 @@
-<h4><center><?   echo CHtml::link('Generar PDF',array('pdf/pdfCriterios',
-												'id_periodo'=>$id_periodo,
+<?php
+
+class PdfController extends Controller
+{
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+
+
+	public function actionPdfCriterios()
+		{
+/*
+'id_periodo'=>$id_periodo,
 												'id_trim'=>$id_trim,
 												'id_subprog'=>$id_subprog,
 												'id_partida'=>$id_partida,
 												'id_area'=>$id_area,
 												'fecha1'=>$fecha1,
-												'fecha2'=>$fecha2, array('target'=>'_blank')
+												'fecha2'=>$fecha2*/
+//$anio=$_GET['anio'];
+$id_periodo=$_GET['id_periodo'];
+$id_trim=$_GET['id_trim'];
+$id_subprog=$_GET['id_subprog'];
+$id_partida=$_GET['id_partida'];
+$id_area=$_GET['id_area'];
+$fecha1=$_GET['fecha1'];
+$fecha2=$_GET['fecha2'];
 
 
-												)); ?></center></h4>
+$titulo = "Nuevo reporte";
 
-<?php  
-//print_r(json_encode($model));
-//die();
-/*
+$html ='<style>
+   body {
+        font-family: sans-serif;
+    }
 
-rray(
-			'id_periodo'=>$id_periodo,
-			'id_trim'=>$id_trim,
-			'id_subprog'=>$id_subprog,
-			'id_partida'=>$id_partida,
-			'id_area'=>$id_area,
-			'fecha1'=>$fecha1,
-			'fecha2'=>$fecha2
-			)
+#header {
+width: 100%;
+background: url(\'../img/unam.jpg\') no-repeat;
+position: relative;
+height: 658px;
+background-position-x: 172px;
+}
+    a {
+        color: #000066;
+        text-decoration: none;
+    }
+    table {
+    	
+    	font-size: 12px;      padding: 20px 65px 65px 65px;     width: 800px; text-align: center;
+        border-collapse: collapse;
+        margin:0;
 
-$this->renderPartial('_rpt', array(
-			'id_periodo'=>$id_periodo,
-			'id_trim'=>$id_trim,
-			'id_subprog'=>$id_subprog,
-			'id_partida'=>$id_partida,
-			'id_area'=>$id_area
-			));
+    }
+    tr:nth-child(even) {background-color: #f2f2f2}
 
-*/
-$enet =0;
+    thead {
+        vertical-align: bottom;
+        text-align: center;
+        font-weight: bold;
+    }
+    tfoot {
+        text-align: center;
+        font-weight: bold;
+    }
+    th {
+    border-bottom: 2px solid #6678B1;
+    color: #000000;
+    font-size: 8px;
+    font-weight: normal;
+    padding: 0;
+    
+   text-align: center; 
+    }
+    td {
+        color: #000000;
+        font-size: 11px;
+    	padding:2px 4px 0;
+    }
+    h1 {
+        color: #000000;
+        text-align: center;
+        font-size: 12px;
+    	padding: 0;
+    	margin:0;
+    }
+    img {
+        margin: 0.2em;
+        vertical-align: middle;
+    }
+    .bpmTopicC td, .bpmTopicC td p { text-align: center; }
+
+      @frame footer {
+    -pdf-frame-content: footerContent;
+    bottom: 2cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+    height: 1cm;
+  }
+
+
+th {     font-size: 14px;     font-weight: normal;     padding: 8px;    ;
+    border-top: 4px solid #aabcfe;    border-bottom: 1px solid #fff; color: #039; }
+
+td {    padding: 2px 4px;         border-bottom: 1px solid #fff;
+    color: #000000;    border-top: 1px solid transparent; }
+
+
+    </style>';
+
+
+   $enet =0;
 $febt =0;
 $mart =0;
 $abrt =0;
@@ -61,23 +137,27 @@ echo 'fecha2:'.$fecha2 . '<bR>';
 
 
 */
-echo '<hr>';
+//echo '<hr>';
 $filtro ="";
+$tit ="";
 //echo $fecha1;
-$filtro .="id_periodo = $id_periodo and bandera=1 and area<>12 and partida<>211 and partida<>331  and partida<>612  AND ";
+$filtro .="id_periodo = $id_periodo and bandera=1 and area<>12 and partida<>211 and partida<>331 and partida<>612  AND ";
 //$filtro .="fecha_ingreso between '$fecha1' and '$fecha2'  AND ";
 
 
 if($id_subprog !=0){
 	$filtro .="subprog =$id_subprog AND ";
+	$tit ="Subprogramas:$id_subprog ";
 }
 
 if($id_partida !=0){
 	$filtro .="partida =$id_partida AND ";
+	$tit .="partida:$id_partida ";
 }
 
 if($id_area !=0){
 	$filtro .="area =$id_area AND ";
+	$tit .="area:$id_area ";
 }
 
 
@@ -112,16 +192,21 @@ if($id_area !=0){
 	}
 
 	$filtroint ="";
+	$tit ="";
 //echo $fecha1;
-$filtroint .="id_periodo = $id_periodo and id_trimestre=$id_trim  and area<>12 and partida<>211 and partida<>331  and partida<>612  AND ";
+$filtroint .="id_periodo = $id_periodo and id_trimestre=$id_trim  and area<>12 and partida<>211 and partida<>331 and partida<>612  AND ";
 
 if($id_subprog !=0){
 	$filtroint .="subprog =$id_subprog AND ";
+	$tit ="Subprogramas:$id_subprog ";
+
 }
 
 
 if($id_area !=0){
 	$filtroint .="area =$id_area AND ";
+	$tit .="area:$id_area ";
+
 }
 
 
@@ -134,7 +219,7 @@ if( !empty( $filtroint ) ){
 
 
 
-	$q2 = "SELECT DISTINCT partida  FROM 
+	 $q2 = "SELECT DISTINCT partida  FROM 
   		     presupuesto ".$filtrof."
 		     order by partida";
 
@@ -157,16 +242,33 @@ sort($arreglof);
 
 $nomArea = Utilities::infoArea($id_area);
 
+//$titulo ="Informe General $tit del $fecha1 al $fecha2";
 
-echo "
-<div class='span3'>
-<div class='span9'>
-<h1 aling='center'>Informe  General Presupuestal $nomArea del $fecha1 al $fecha2 </h1><br>
+$titulo ="<h1 aling='center'>Informe General Presupuestal $nomArea del $fecha1 al $fecha2 </h1>";
+$html .='
 
-</div>
-<div class='span12'>
+ <table cellspacing="0" style="width: 100%; text-align: center; padding:0;">
+        <tr>
+            <td style="width: 10%;">
+            <img style="width:80;" src="http://localhost/spdgm/images/unam.jpg" alt="Logo"><br>
+             
+            </td>
+            <td style="width: 70%; color: #444444; text-align: left;font-size: 15px">
+              Coordinación de Difusión Cultural<br>
+              Dirección General de Música  
+            </td>
+            <td style="width: 10%; color: #444444;">
+            <img style="width:150;" src="http://localhost/spdgm/images/musicaunam.jpg" alt="Logo"><br>
+             </td>
+        </tr>
+    </table>
 
-<table class='table table-striped table-hover'>
+    <h1>'.$titulo.'</h1>
+';
+
+$html .="
+
+<table cellspacing=\"0\" style=\"width: 100%; text-align: center; \">
 	<tr>
 		<th>Partida</th>
 		<th>Ene</th>
@@ -192,7 +294,7 @@ foreach($arreglof as $numero)
 
 $filtroint ="";
 //echo $fecha1;
-$filtroint .="id_periodo = $id_periodo and id_trimestre=$id_trim and partida=$numero and area<>12 and partida<>211 and partida<>331  and partida<>612  AND ";
+$filtroint .="id_periodo = $id_periodo and id_trimestre=$id_trim and partida=$numero and area<>12 and partida<>211 and partida<>331 and partida<>612  AND ";
 
 if($id_subprog !=0){
 	$filtroint .="subprog =$id_subprog AND ";
@@ -373,8 +475,8 @@ $muestraejercido = number_format($ejercidot,2);
 
 
 
-     echo "<tr>
-	 		<td><center>$numero</center></td>
+     $html .="<tr>
+	 		<td>$numero</td>
 	 		<td  align=\"right\">$enep</td>
 	 		<td  align=\"right\">$febp</td>
 	 		<td  align=\"right\">$marp</td>
@@ -447,56 +549,65 @@ $dict =number_format($dict,2);
 $gastadot =number_format($gastadot,2);
 $disponiblef =number_format($disponiblef,2);
 
-	echo "<tr>
+	$html .="<tr>
 			
-	 		<td  align=\"right\"><b>Total:<b></td>
-	 		<td  align=\"right\"><b>$enet</td>
-	 		<td  align=\"right\"><b>$febt</td>
-	 		<td  align=\"right\"><b>$mart</td>
-	 		<td  align=\"right\"><b>$abrt</td>
-	 		<td  align=\"right\"><b>$mayt</td>
-	 		<td  align=\"right\"><b>$junt</td>
-	 		<td  align=\"right\"><b>$jult</td>
-	 		<td  align=\"right\"><b>$agot</td>
-	 		<td  align=\"right\"><b>$sept</td>
-	 		<td  align=\"right\"><b>$octt</td>
-	 		<td  align=\"right\"><b>$novt</td>
-	 		<td  align=\"right\"><b>$dict</td>
-	 		<td  align=\"right\"><b>$presupuesto_final<b></td>
-	 		<td  align=\"right\"><b>$gastadot<b></td>
-	 		<td  align=\"right\"><b>$disponiblef<b></td>
+	 		<td  align=\"right\"><strong>Total</strong>:</td>
+	 		<td  align=\"right\"><strong>$enet</strong></td>
+	 		<td  align=\"right\"><strong>$febt</strong></td>
+	 		<td  align=\"right\"><strong>$mart</strong></td>
+	 		<td  align=\"right\"><strong>$abrt</strong></td>
+	 		<td  align=\"right\"><strong>$mayt</strong></td>
+	 		<td  align=\"right\"><strong>$junt</strong></td>
+	 		<td  align=\"right\"><strong>$jult</strong></td>
+	 		<td  align=\"right\"><strong>$agot</strong></td>
+	 		<td  align=\"right\"><strong>$sept</strong></td>
+	 		<td  align=\"right\"><strong>$octt</strong></td>
+	 		<td  align=\"right\"><strong>$novt</strong></td>
+	 		<td  align=\"right\"><strong>$dict</strong></td>
+	 		<td  align=\"right\"><strong>$presupuesto_final</strong></td>
+	 		<td  align=\"right\"><strong>$gastadot</strong></td>
+	 		<td  align=\"right\"><strong>$disponiblef</strong></td>
 
 	 	</tr>
-		</table>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		
+		
 	 	";
 
 
 
 	//print_r($arreglo);
 
-
+$html .="</table>";
 } else {
 
-
- $q = "SELECT DISTINCT partida  FROM 
+$titulo ="Informe General Presupuestal $tit del $fecha1 al $fecha2";
+$q = "SELECT DISTINCT partida  FROM 
   		     base_cap ".$filtro2."
 		     order by partida";
 
-$nomArea = Utilities::infoArea($id_area);
+$html .='
 
-echo "
-<div class='span3'>
-<div class='span9'>
-<h1 aling='center'>Informe  General Presupuestal $nomArea del $fecha1 al $fecha2 </h1><br>
+ <table cellspacing="0" style="width: 100%; text-align: center; padding:0;">
+        <tr>
+            <td style="width: 10%;">
+            <img style="width:80;" src="http://localhost/spdgm/images/unam.jpg" alt="Logo"><br>
+             
+            </td>
+            <td style="width: 70%; color: #444444; text-align: left;font-size: 15px">
+              Coordinación de Difusión Cultural<br>
+              Dirección General de Música  
+            </td>
+            <td style="width: 10%; color: #444444;">
+            <img style="width:150;" src="http://localhost/spdgm/images/musicaunam.jpg" alt="Logo"><br>
+             </td>
+        </tr>
+    </table>
 
-</div>
-<div class='span12'>
-<table class='table table-striped table-hover'>
+    <h1>'.$titulo.'</h1>
+';
+
+$html .="<div align=center>
+<table cellspacing=\"0\" style=\"width: 100%; text-align: center; \">
 	<tr>
 		<th>Partida</th>
 		<th>Ene</th>
@@ -529,7 +640,7 @@ foreach ($resultado as $row) {
 
 $filtroint ="";
 //echo $fecha1;
-$filtroint .="id_periodo = $id_periodo and id_trimestre=$id_trim and partida=$row[partida] and area<>12 and partida<>211 and partida<>331  and partida<>612  AND ";
+$filtroint .="id_periodo = $id_periodo and id_trimestre=$id_trim and partida=$row[partida] and area<>12 and partida<>211 and partida<>331 and partida<>612  AND ";
 
 if($id_subprog !=0){
 	$filtroint .="subprog =$id_subprog AND ";
@@ -558,7 +669,7 @@ $presupuestof = $presupuesto['suma'];
 
 $filtroint2 ="";
 //echo $fecha1;
-$filtroint2 .="bandera=1 and id_periodo = $id_periodo  and area<>12 and partida=$row[partida] and partida<>211 and partida<>331  and partida<>612 and (fecha_ingreso BETWEEN '$fecha1' and '$fecha2') AND ";
+$filtroint2 .="bandera=1 and id_periodo = $id_periodo  and area<>12 and partida=$row[partida] and partida<>211 and partida<>331 and partida<>612 and (fecha_ingreso BETWEEN '$fecha1' and '$fecha2') AND ";
 
 if($id_subprog !=0){
 	$filtroint2 .="subprog =$id_subprog AND ";
@@ -698,8 +809,8 @@ $muestraejercido = number_format($ejercidot,2);
 			  	if ($muestrapresupuesto==0) { $muestrapresupuesto =''; }
 			  	if ($muestraejercido==0) { $muestraejercido =''; }+*/
 
- echo "<tr>
-	 		<td><center>$row[partida]</center></td>
+ $html .="<tr>
+	 		<td>$row[partida]</td>
 	 		<td  align=\"right\">$enep</td>
 	 		<td  align=\"right\">$febp</td>
 	 		<td  align=\"right\">$marp</td>
@@ -770,38 +881,95 @@ $dict =number_format($dict,2);
 $gastadot =number_format($gastadot,2);
 $disponiblef =number_format($disponiblef,2);
 
-	echo "<tr>
+$html .="<tr>
 			
-	 		<td  align=\"right\"><b>Total:<b></td>
-	 		<td  align=\"right\"><b>$enet</td>
-	 		<td  align=\"right\"><b>$febt</td>
-	 		<td  align=\"right\"><b>$mart</td>
-	 		<td  align=\"right\"><b>$abrt</td>
-	 		<td  align=\"right\"><b>$mayt</td>
-	 		<td  align=\"right\"><b>$junt</td>
-	 		<td  align=\"right\"><b>$jult</td>
-	 		<td  align=\"right\"><b>$agot</td>
-	 		<td  align=\"right\"><b>$sept</td>
-	 		<td  align=\"right\"><b>$octt</td>
-	 		<td  align=\"right\"><b>$novt</td>
-	 		<td  align=\"right\"><b>$dict</td>
-	 		<td  align=\"right\"><b>$presupuesto_final<b></td>
-	 		<td  align=\"right\"><b>$gastadot<b></td>
-	 		<td  align=\"right\"><b>$disponiblef<b></td>
+	 		<td  align=\"right\"><strong>Total:</strong></td>
+	 		<td  align=\"right\"><strong>$enet</strong></td>
+	 		<td  align=\"right\"><strong>$febt</strong></td>
+	 		<td  align=\"right\"><strong>$mart</strong></td>
+	 		<td  align=\"right\"><strong>$abrt</strong></td>
+	 		<td  align=\"right\"><strong>$mayt</strong></td>
+	 		<td  align=\"right\"><strong>$junt</strong></td>
+	 		<td  align=\"right\"><strong>$jult</strong></td>
+	 		<td  align=\"right\"><strong>$agot</strong></td>
+	 		<td  align=\"right\"><strong>$sept</strong></td>
+	 		<td  align=\"right\"><strong>$octt</strong></td>
+	 		<td  align=\"right\"><strong>$novt</strong></td>
+	 		<td  align=\"right\"><strong>$dict</strong></td>
+	 		<td  align=\"right\"><strong>$presupuesto_final</strong></td>
+	 		<td  align=\"right\"><strong>$gastadot</strong></td>
+	 		<td  align=\"right\"><strong>$disponiblef</strong></td>
 
 	 	</tr>";
 
-?>
-</table>
-<br>
-<br>
-<br>
-<br>
-<br>
+      $html .="</table></div>";
 
-<?php 
+
+
+
+	/*$html .='</table></body>'; /*
+  
+        <table class="page_footer">
+            <tr>
+                <td style="width: 33%; text-align: left;">
+                    Sistema Presupuestal
+                </td>
+                <td style="width: 34%; text-align: center">
+                    
+                </td>
+                <td style="width: 33%; text-align: right">
+                 page [[page_cu]]/[[page_nb]]   
+                </td>
+            </tr>
+        </table>*/
+
+
+	//';
+
 
 }
 
-?>
 
+
+	$mpdf=Yii::app()->ePdf->html2pdf();
+$mpdf -> pdf->SetDisplayMode('fullpage');
+//$mpdf->AddPage('L','Legal','','','',5,5,5,5,5,5);
+//$mpdf->SetHeader('<img style="vertical-align: top" src="'.Yii::app()->baseurl .'/images/unam.jpg" width="80" />|Dirección General de Música|{PAGENO}');
+//$mpdf->SetFooter('Informe detalle de Presupuesto|{PAGENO}');
+$mpdf->WriteHTML($html);
+//$mPDF1->WriteHTML($html2);//$this->render('_criterios',array('fecha1'=>$fecha1, 'fecha2'=>$fecha2)),true);
+$report = "ReportePorCriterios-". date("d/m/y H:i:s").".pdf";
+$mpdf->Output("$report",EYiiPdf::OUTPUT_TO_DOWNLOAD);
+
+
+
+
+
+		}
+	// Uncomment the following methods and override them if needed
+	/*
+	public function filters()
+	{
+		// return the filter configuration for this controller, e.g.:
+		return array(
+			'inlineFilterName',
+			array(
+				'class'=>'path.to.FilterClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+
+	public function actions()
+	{
+		// return external action classes, e.g.:
+		return array(
+			'action1'=>'path.to.ActionClass',
+			'action2'=>array(
+				'class'=>'path.to.AnotherActionClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+	*/
+}

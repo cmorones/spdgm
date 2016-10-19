@@ -30,6 +30,10 @@
 	<?php echo CHtml::encode($data->rfc); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('mail')); ?>:</b>
+	<?php echo CHtml::encode($data->mail); ?>
+	<br />
+
 	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('curp')); ?>:</b>
 	<?php echo CHtml::encode($data->curp); ?>

@@ -4,6 +4,9 @@
 //$url = $baseUrl;
 //$data = file_get_contents($url);
 //$model= CJSON::decode($data);
+
+$id_area2 = $id_area;
+$prov2 =$prov;
 if($id_area==0){
 	$id_area="";
 }
@@ -17,22 +20,36 @@ if($id_area==3){
 	$id_area="OJUEM";
 }
 
-if($prov==0){
+if($prov2==0){
 	$prov="";
 }
 
+
+
+
 ?>
-<h4 ><center><?   /*echo CHtml::link('Generar PDF',array('api/pdfPagos',
+<h4 ><center><?   echo CHtml::link('Generar PDF',array('api/pdfPagos',
 												'id_periodo'=>$id_periodo,
 												'id_pago'=>$id_pago,
+												'id_area'=>$id_area2,
+												'prov'=>$prov2,
 												'titulo'=>$titulo
-												), array('target'=>'_blank'));*/ ?></center></h4>
-<h4><center><?=$titulo?><bR><?=$id_area?><bR><?=$prov?></center></h4>
+												), array('target'=>'_blank')); ?></center></h4>
+
+
+<?php
+
+if ($prov2==0) {
+	$prov2="";
+}
+
+?>												
+<h4><center><?=$titulo?></center></h4>
 <hr>
 <div class="span12">
 <table class="table ">
 	<tr>
-		<th>Num.</th>
+		<th>Num</th>
 		<th>Folio</th>
 		<th>Nombre</th>
 		<th>Concepto</th>
@@ -76,6 +93,8 @@ foreach ($model as $row) {
 		$clasif = "OJUEM";
 
 	}
+
+	$pago_importe =number_format($row->importe,2);
 echo "<tr>
         <td>$num</td>
         <td>$row->folio</td>
@@ -86,7 +105,7 @@ echo "<tr>
 		<td>$row->no_contrarecibo</td>
 		<td>$row->fecha_contrarecibo</td>
 		<td width='60' >$row->fecha_cheque</td>
-		<td>$row->importe</td>
+		<td align=\"right\">$pago_importe</td>
 		<td><center><img class=img-responsive tpad src=$imagen></center></td>
 		<td>$clasif</td>
 		

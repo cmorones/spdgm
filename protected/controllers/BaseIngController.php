@@ -28,7 +28,7 @@ class BaseIngController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','index2'),
+				'actions'=>array('index','view','index2','informe','reqInforme'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -54,6 +54,38 @@ class BaseIngController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+
+public function actionInforme($id)
+	{
+
+		$this->render('_informe',array(
+			'id'=>$id,
+		));
+
+	}
+
+	public function actionReqInforme()
+	{
+
+		
+		if(isset($_POST['fecha1'],$_POST['fecha2'],$_POST['tipo'])){
+
+		 $fecha1 =$_POST['fecha1'];
+ 		 $fecha2 =$_POST['fecha2'];
+ 		 $tipo =$_POST['tipo'];
+ 		 $id = $_POST['id'];
+
+		$this->renderPartial('rptconciliacion', array(
+			'id'=>$id,
+			'fecha1'=>$fecha1,
+			'fecha2'=>$fecha2,
+			'tipo'=>$tipo));
+
+		}else{
+			echo "Faltan criterios";
+		}
+
 	}
 
 	/**
@@ -134,6 +166,7 @@ class BaseIngController extends Controller
 		{
 			$model->attributes=$_POST['BaseIng'];
 			$model->id_periodo=$id;
+			$model->validado=0;
 			if($model->save())
 				$this->redirect(array('admin','id'=>$model->id_periodo));
 		}

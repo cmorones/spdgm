@@ -1,0 +1,2 @@
+
+<a href="<?php echo CController::createUrl('apipdf/turno', array('id'=>$id, 'tipo'=>$tipo, 'parcial'=>$parcial, 'parcial1'=>$parcial1)); ?>" target="_blank" class="btn-sm btn btn-warning pull-left"><i class="glyphicon glypicon-plus"></i>Imprimir PDF</a>

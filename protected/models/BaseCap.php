@@ -139,7 +139,7 @@ class BaseCap extends CActiveRecord
 		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
 		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
 		$criteria->compare('detalle',$this->detalle,true);
-		$criteria->compare('bandera',$this->bandera,true);
+		$criteria->compare('bandera',$this->bandera);
 		$criteria->compare('fecha_ingreso',$this->fecha_ingreso,true);
 		$criteria->compare('cladgam',$this->cladgam);
 		$criteria->compare('id_periodo',$this->id_periodo);

@@ -38,30 +38,48 @@ $prov = $_POST['prov'];
 
 
   $prefil = "id_periodo=$id_periodo ";
-
+  $pagado ="";
+  $nomarea ="";
+  $nomprov ="";
 
   if( !empty( $_POST["id_pago"] ) ){
       $prefil .=" and pagado=".$_POST["id_pago"];
+      if ($_POST['id_pago']==1) {
+        $pagado ="Pagados";
+      }elseif ($_POST['id_pago']==2) {
+        $pagado ="No Pagados";
+      }
     }
 
   if( !empty( $_POST["id_area"] ) ){
       $prefil .=" and clasificacion=".$_POST["id_area"];
+      if($id_area==1){
+        $nomarea=" de DGMU";
+      }
+      if($id_area==2){
+        $nomarea=" de OFUNAM";
+      }
+      if($id_area==3){
+        $nomarea=" de OJUEM";
+      }
     }
 
     if( !empty( $_POST["prov"] ) ){
       $prefil .=" and proveedor='".$_POST["prov"]."'";
+      $nomprov = "de " .$_POST["prov"];
     }
 
   //$filtro = " ".substr( $prefil ,4,-1 );
 
   $model = Pagos::model()->findAll((array(
     'condition'=>"$prefil",
+    //'order'=>'proveedor',
    // 'condition'=>"id_periodo=$id_periodo",
    // 'condition'=>"id_trimestre=$id_trim",
-    'order'=>'id'
+    'order'=>'proveedor'
   )));
 
-$titulo ="";
+$titulo ="Informe de Pagos $pagado $nomarea $nomprov";
 
 $this->renderPartial('_pagos', array(
       'titulo'=>$titulo,

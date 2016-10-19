@@ -296,20 +296,16 @@ class PagosController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		$parcial =0;
 	
 		$this->render('_polizas',array(
 			'model'=>$model,
 			'id'=>$id,
-			'parcial'=>$parcial,
 		));
 	}
 
 
-public function actionImprimir() {
+	public function actionImprimir() {
 
-$id=0;
-$subcuenta=0;
 if(isset($_POST['id']) && $_POST['id'] !="" && $_POST['id'] !=0){
 $id =$_POST['id'];
 }else
@@ -322,27 +318,29 @@ $cuenta =$_POST['cuenta'];
 {
 $error=false;
 }
-
-if(isset($_POST['subcueta']) && $_POST['subcueta'] !="" && $_POST['subcueta'] !=0){
-$subcuenta =$_POST['subcueta'];
+/*
+if(isset($_POST['id_area']) && $_POST['id_area'] !="" && $_POST['id_area'] !=0){
+$id_area =$_POST['id_area'];
+$tit4 = "por area:$id_area<br>";
 }else
 {
-$error=false;
+$id_area =0;
+$tit4 = "";
 }
+if(isset($_POST['proveedor']) && ($_POST['proveedor'] !="" && $_POST['proveedor'] !='0')){
+$proveedor =$_POST['proveedor'];
+$tit5 = "por proveedor:$proveedor<br>";
 
-if(isset($_POST['tipo']) && $_POST['tipo'] !="" && $_POST['tipo'] !=0){
-$tipo =$_POST['tipo'];
 }else
 {
-$error=false;
-}
+$proveedor ="";
+$tit5 = "";
 
+}*/
 
 $this->renderPartial('_imprimir',array(
 	'id'=>$id,
-	'cuenta'=>$cuenta,
-	'subcuenta'=>$subcuenta,
-	'tipo'=>$tipo
+	'cuenta'=>$cuenta
 	));
 
 	}

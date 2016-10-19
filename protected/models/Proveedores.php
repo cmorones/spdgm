@@ -43,11 +43,11 @@ class Proveedores extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, domicilio, colonia, telefono, codigo, rfc, entidad, actividad', 'required'),
+			array('mail, nombre, domicilio, colonia, telefono, codigo, rfc, entidad, actividad', 'required'),
 			array('curp, tipo, status', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, domicilio, colonia, telefono, codigo, rfc, curp, entidad, actividad', 'safe', 'on'=>'search'),
+			array('id, mail, nombre, domicilio, colonia, telefono, codigo, rfc, curp, entidad, actividad', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,6 +80,7 @@ class Proveedores extends CActiveRecord
 			'actividad' => 'Actividad',
 			'tipo' => 'Tipo',
 			'status' => 'Estado',
+			'mail' => 'Correo',
 		);
 	}
 

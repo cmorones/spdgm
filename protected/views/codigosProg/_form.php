@@ -26,9 +26,19 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'subprog'); ?>
-		<?php echo $form->textField($model,'subprog'); ?>
-		<?php echo $form->error($model,'subprog'); ?>
+				<?php 
+
+	$resultado = Subprogramas::model()->findAll('status=1',array('order'=>'id desc'));
+        $subprog = array();
+        $subprog['falso'] = 'Selecciona subprograma';
+        foreach ($resultado as $key => $value) {
+            $subprog[$value->id] = $value->alias;
+        }
+
+					echo $form->labelEx($model, 'subprog'); ?>
+						<?php echo $form->dropDownList($model, 'subprog', $subprog, array(
+						'id' => 'subprog'));?>
+ 						<?php echo $form->error($model, 'subprog'); ?>
 	</div>
 
 	<div class="row">

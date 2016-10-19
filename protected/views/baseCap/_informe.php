@@ -1,18 +1,50 @@
 
+<?php
 
 
+$sql = "SELECT nombre from cat_ejercicio where id=$id"; 
+	$periodo = Yii::app()->db->createCommand($sql)->queryRow();
+ $anio = $periodo['nombre'];
+?>
 
 <div class="portlet box blue">
 <i class="icon-reorder"></i>
- <div class="portlet-title">Consulta Gastos
-
-</div>
+ <div class="portlet-title">Conciliación Gastos <?=$anio?>
+ </div>
+<div class="form">
 
 <div class="form">
 <?php echo CHtml::beginForm(); ?>
 
 
 <div class="row-fluid">
+<div class="span3">
+<?php echo CHtml::hiddenField('id' , $id, array('id' => 'id')); ?>
+	<?php echo CHtml::label('Informe por','terms');
+
+$subprogramas = array();
+$subprogramas[-1] = 'TODOS';
+$subprogramas[0] = 'NO CONCILIADO';
+$subprogramas[1] = 'CONCILIADO';
+
+
+   ?>
+
+
+<?php $this->widget('ext.select2.ESelect2',array(
+  'name'=>'tipo',
+   'options'=>array(
+                        'placeholder' => 'Seleccionar ', 
+                        'width'=>'100%',
+                        'maximumSelectionSize'=>5,
+                        
+
+                    ),
+
+   /*findAll('status=1',array('order'=>'id'))*/
+  'data' => $subprogramas,
+)); ?>
+</div>
 <div class="span3">
 
 <?php echo CHtml::label('Fecha de Inicio', 'fecha1'); ?>
@@ -49,7 +81,7 @@
 		'options' => array(
 			// how to change the input format? see http://docs.jquery.com/UI/Datepicker/formatDate
 			'dateFormat'=>'yy-mm-dd',
-			//'yearRange' => '2013:2014',
+			'yearRange' =>  "$anio:$anio",
 
 
 			// user will be able to change month and year
@@ -83,6 +115,7 @@
 	)
 );
  ?>
+
 </div>
 
 <div class="span3">
@@ -120,6 +153,7 @@
 		'options' => array(
 			// how to change the input format? see http://docs.jquery.com/UI/Datepicker/formatDate
 			'dateFormat'=>'yy-mm-dd',
+			'yearRange' =>  "$anio:$anio",
 
 			// user will be able to change month and year
 			'changeMonth' => 'true',
@@ -153,183 +187,16 @@
 );
  ?>
 </div>
-<div class="span3">
-	<?php echo CHtml::label('Subprograma','terms');
-
-$subprogramas = array();
-$subprogramas[0] = 'TODOS';
-
-$resultpprov = Subprogramas::model()->findAll((array(
-    'condition'=>'status=1',
-   //'condition'=>"bandera=1 and subprog=$subprog",
-   // 'condition'=>"bandera=$id_bandera and area=$subprog and (fecha_ingreso BETWEEN '$fecha1' AND '$fecha2')",
-    'order'=>'id'
-  )));
-
- foreach ($resultpprov as $key => $value) {
-            $subprogramas[$value->id] = "$value->alias";
-        }
-
-   ?>
-
-
-<?php $this->widget('ext.select2.ESelect2',array(
-  'name'=>'id_subprog',
-   'options'=>array(
-                        'placeholder' => 'Seleccionar Subprograma', 
-                        'width'=>'100%',
-                        'maximumSelectionSize'=>5,
-                        
-
-                    ),
-
-   /*findAll('status=1',array('order'=>'id'))*/
-  'data' => $subprogramas,
-)); ?>
 </div>
 
 
-
-<div class="span3">
-	<?php echo CHtml::label('Area','terms'); ?>
-<?php 
-$areas = array();
-$areas[0] = 'TODOS';
-
-$resultpprov = CatAreas::model()->findAll();
-
- foreach ($resultpprov as $key => $value) {
-            $areas[$value->id] = "$value->nombre";
-        }
-
-
-$this->widget('ext.select2.ESelect2',array(
-  'name'=>'id_area',
-   'options'=>array(
-                        'placeholder' => 'Seleccionar Area', 
-                        'width'=>'100%',
-                        'maximumSelectionSize'=>5,
-                        
-
-                    ),
-  'data' => $areas,
-)); ?>
-</div>
-
-
-
-
-</div>
-<div class="row-fluid">
-	   <div class="span3">
-
-<?php echo CHtml::label('proveedor','terms'); ?>
-<?php 
-
-$resultpprov = BaseCap::model()->findAll((array(
-  //  'condition'=>'bandera=1',
-   //'condition'=>"bandera=1 and subprog=$subprog",
-  	'select'=>'proveedor',
-    'group'=>"proveedor",
-   'order'=>'proveedor',
-	)));
-        $proveedor = array();
-        $proveedor[0] = 'TODOS';
-        foreach ($resultpprov as $key => $value) {
-            $proveedor[$value->proveedor] = "$value->proveedor";
-        }
-
-$this->widget('ext.select2.ESelect2',array(
-  'name'=>'proveedor',
-   'options'=>array(
-                        'placeholder' => 'Seleccionar proveedor', 
-                        'width'=>'100%',
-                        'maximumSelectionSize'=>5,
-                        
-
-                    ),
-  'data' => $proveedor,
-)); ?>
-</div>
-<div class="span3">
-	<?php 
-
- 		$resulpartida = Partidas::model()->findAll();
-        $partidas = array();
-        $partidas[0] = 'TODAS LAS PARTIDAS';
-        foreach ($resulpartida as $key => $value) {
-            $partidas[$value->codigo] = "$value->codigo - $value->descripcion";
-        }
-	echo CHtml::label('Partidas','terms'); ?>
-<?php $this->widget('ext.select2.ESelect2',array(
-  'name'=>'id_partida',
-   'options'=>array(
-                        'placeholder' => 'Seleccionar Partida', 
-                        'width'=>'100%',
-                        'maximumSelectionSize'=>5,
-                        
-
-                    ),
-  'data' => $partidas,
-)); ?>
-</div>
-
-<div class="span3">
-	<?php echo CHtml::label('Bandera','terms'); ?>
-<?php 
-
-$bandera = array();
-$bandera[-1] = 'TODOS LOS INGRESOS EXTRAORDINARIOS';
-$bandera[0] = 'TODAS';
-
-$resultpprov = Banderas::model()->findAll((array(
-    'condition'=>'status=1',
-   //'condition'=>"bandera=1 and subprog=$subprog",
-   // 'condition'=>"bandera=$id_bandera and area=$subprog and (fecha_ingreso BETWEEN '$fecha1' AND '$fecha2')",
-    'order'=>'nombre desc'
-	)), 'id', 'nombre');
-
- foreach ($resultpprov as $key => $value) {
-            $bandera[$value->id] = "$value->nombre";
-        }
-
-$this->widget('ext.select2.ESelect2',array(
-  'name'=>'id_bandera',
-   'options'=>array(
-                        'placeholder' => 'Seleccionar Bandera', 
-                        'width'=>'100%',
-                        'maximumSelectionSize'=>5,
-                        
-
-                    ),
-
-   /*findAll('status=1',array('order'=>'id'))*/
-  'data' => $bandera,
-)); ?>
-</div>
-
-<div class="span3">
-	    <?php echo CHtml::label('Observaciones','terms');?>
-		 <?echo(CHtml::textField('observa','',array('class'=>'input-large ')));?>
-		
-	</div>
-
-</div>
-<div class="row-fluid">
-
-	<div class="span3">
-	    <?php echo CHtml::label('Importe mayor o igual a:','importe');?>
-		 <?echo(CHtml::textField('importe','',array('class'=>'input-large ')));?>
-		
-	</div>
-</div>
 <div class="row-fluid">
 <div class="span2">
 
 <?php
 echo CHtml::ajaxSubmitButton(
 	'Generar informe ',
-	array('informesC/reqPto'),
+	array('baseCap/reqInforme'),
 	array(
 		'update'=>'#req_res02',
 	),
@@ -339,23 +206,8 @@ echo CHtml::ajaxSubmitButton(
 
 </div>
 
-<div class="span2">
-
-<?php echo CHtml::submitButton('Limpiar formulario',array('class'=>'btn-info')); ?>
 
 
-</div>
-<div class="span8">
-
-
-
-
-
-
-</div>
-</div>
-<div class="row-fluid">
-</div>
 <?php //echo CHtml::submitButton('Generar',array('class'=>'submit')); ?>
 <?php echo CHtml::endForm();
 
@@ -364,9 +216,12 @@ echo CHtml::ajaxSubmitButton(
 
 </div>
 </div>
+</div>
 
 
+<div class='span12'>
 <div id="req_res02">...</div>
+</div>
 <?php 
 
 $this->widget('application.extensions.fancybox.EFancyBox', array(

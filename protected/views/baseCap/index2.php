@@ -7,7 +7,7 @@
 </div>
 
 <div class="row-fluid">
-  <div class="span8">
+  <div class="span12">
 <table class="table table-hover">
 
   <tr><th>
@@ -17,6 +17,7 @@
   <th>Registros Conciliados</th>
    <th>No Conciliados</th>
   <th>Accion</th>
+  <th>Informe</th>
   </tr>
 
 <?php 
@@ -32,7 +33,9 @@ $ejercicio1 = Yii::app()->db->createCommand($sql1)->queryRow();
 
 echo "<tr><td>$contador<td>$item->nombre</td><td align=\"center\">$ejercicio[registros]</td><td align=\"center\">$ejercicio1[registros]</td><td>";
 echo CHtml::link('Conciliar -->',array('baseCap/admin3/'.$item->id),array('class'=>'btn btn-info btn-sm'));
-echo "</td></tr>";
+echo "</td><td>";
+echo CHtml::link('Informe',array('baseCap/informe/'.$item->id),array('class'=>'btn btn-success btn-sm'));
+echo"</tr>";
 $contador++;
 }
   ?>

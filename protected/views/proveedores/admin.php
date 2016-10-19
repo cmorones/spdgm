@@ -51,6 +51,7 @@ $('.search-form form').submit(function(){
 		'curp',
 		'entidad',
 		'actividad',
+		'mail',
 		
 		array(
 			'class'=>'CButtonColumn',

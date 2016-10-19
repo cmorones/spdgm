@@ -5435,38 +5435,35 @@ $mpdf->Output("$report",EYiiPdf::OUTPUT_TO_DOWNLOAD);
 }
 
 
-public function actionPdfPagos($id_periodo,$id_pago,$id_area, $prov, $titulo)
+public function actionPdfPagos($id_periodo,$id_pago,$titulo)
 		{
 
 set_time_limit(0);
-
- $prefil = "id_periodo=$id_periodo ";
- $pagado ="";
-
-
-  if( !empty( $id_pago ) ){
-      $prefil .=" and pagado=".$id_pago;
-       
-    }
-
-  if( !empty( $id_area ) ){
-      $prefil .=" and clasificacion=".$id_area;
-    }
-
-  if( !empty( $prov ) ){
-      $prefil .=" and proveedor='".$prov."'";
-    }
-
-  //$filtro = " ".substr( $prefil ,4,-1 );
-
-  $model = Pagos::model()->findAll((array(
-    'condition'=>"$prefil",
-    //'order'=>'proveedor',
+if($id_pago!=0){
+$model = Pagos::model()->findAll((array(
+    'condition'=>"id_periodo=$id_periodo and pagado=$id_pago",
    // 'condition'=>"id_periodo=$id_periodo",
    // 'condition'=>"id_trimestre=$id_trim",
-    'order'=>'proveedor'
-  )));
+    'order'=>'id'
+	)));
+if($id_pago==1){
+		$tipo ="Pagados";
+	} else {
+		$tipo ="Pendientes";
+	}
 
+}else{
+
+	
+
+$model = Pagos::model()->findAll((array(
+    'condition'=>"id_periodo=$id_periodo ",
+   // 'condition'=>"id_periodo=$id_periodo",
+   // 'condition'=>"id_trimestre=$id_trim",
+    'order'=>'id'
+	)));
+
+}
 
 $html ='<style>
    body {
@@ -5514,7 +5511,7 @@ background-position-x: 172px;
     }
     </style>';
 $html .='
-<header aling="center">Informe de Pagos $pagado</header>
+<header></header>
 <body>
 
  <table cellspacing="0" style="width: 100%; text-align: center; ">
@@ -5551,7 +5548,6 @@ $html .='
 
 
 $num=1;
-$total =0;
 foreach ($model as $row) {
 
 	if($row->pagado==1){
@@ -5563,7 +5559,6 @@ foreach ($model as $row) {
 	   $imagen = Yii::app()->request->baseUrl ."/images/incorrecto.png";
 
 	}
-$pago_importe =number_format($row->importe,2);
 $html .="<tr>
         <td>$num</td>
 		<td>$row->proveedor</td>
@@ -5573,28 +5568,12 @@ $html .="<tr>
 		<td>$row->no_contrarecibo</td>
 		<td>$row->fecha_contrarecibo</td>
 		<td width='60' >$row->fecha_cheque</td>
-		<td align=right>$pago_importe</td>
+		<td>$row->importe</td>
 		<td><center><img class=img-responsive tpad src=$imagen></center></td>
 		
-	</tr>";
+	<tr>";
   $num++;
-   $total = $total + $row->importe;
 }
-
-$total =number_format($total,2);
-
-$html .="<tr>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th> </th>
-		<th width=60><strong>Total</strong></th>
-		<th><strong>$total</strong></th>
-		<th></th>
-		
-	</tr>";
 
 
 $html .='</table>
@@ -5607,7 +5586,7 @@ $html .='</table>
 $mpdf=Yii::app()->ePdf->mPDF();
 $mpdf->AddPage('L','','','','',5,5,10,10,10,10);
 //$mpdf->SetHeader('<img style="vertical-align: top" src="'.Yii::app()->baseurl .'/images/unam.jpg" width="80" />|Dirección General de Música|{PAGENO}');
-$mpdf->SetFooter('{PAGENO}');
+$mpdf->SetFooter('Informe detalle de pagos|{PAGENO}');
 $mpdf->WriteHTML($html);
 //$mPDF1->WriteHTML($html2);//$this->render('_criterios',array('fecha1'=>$fecha1, 'fecha2'=>$fecha2)),true);
 $report = "ReporteGeneralPagos-". date("d/m/y H:i:s").".pdf";

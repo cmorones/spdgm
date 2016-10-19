@@ -34,6 +34,10 @@ if($proveedor !=0 || $proveedor !='' ){
 	$filtro .="nombre = '$proveedor' AND ";
 }
 
+if($mail !=0 || $mail !='' ){
+	$filtro .="mail = '$mail' AND ";
+}
+
 
 if( !empty( $filtro ) ){
 		$filtro2= " where ".substr( $filtro, 0,-4);
@@ -86,6 +90,26 @@ foreach ($resultado as $row) {
 	}
 	if($row['tipo']==4){
            $tiponom ="Honorarios";
+	}
+
+	if($row['tipo']==5){
+           $tiponom ="Confianza";
+	}
+
+	if($row['tipo']==6){
+           $tiponom ="Funcionarios";
+	}
+
+	if($row['tipo']==7){
+           $tiponom ="Proveedores";
+	}
+
+	if($row['tipo']==8){
+           $tiponom ="Becarios";
+	}
+
+	if($row['tipo']==9){
+           $tiponom ="NT";
 	}
 	echo "<tr>
 	    <td>$i</td>

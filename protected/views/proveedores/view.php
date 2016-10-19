@@ -32,6 +32,7 @@ $this->menu=array(
 		'curp',
 		'entidad',
 		'actividad',
+		'mail',
 	),
 )); ?>
 </div>

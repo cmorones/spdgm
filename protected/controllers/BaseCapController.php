@@ -28,7 +28,7 @@ class BaseCapController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','json','buscar','partida'),
+				'actions'=>array('index','view','json','buscar','partida','poliza','imprimir','informe','reqInforme'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -43,6 +43,74 @@ class BaseCapController extends Controller
 				'users'=>array('*'),
 			),
 		);
+	}
+
+	
+	public function actionPoliza($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+	
+		$this->render('_polizas',array(
+			'model'=>$model,
+			'id'=>$id,
+		));
+	}
+
+
+	public function actionImprimir() {
+
+
+$parcial = $_POST['parcial'];
+$tipo = $_POST['tipo'];
+$id = $_POST['id'];
+
+
+if($tipo==1){
+
+	$parcial1 = $_POST['parcial1'];
+
+	$this->renderPartial('_imprimir',array(
+	'id'=>$id,
+	'tipo'=>$tipo,
+	'parcial'=>$parcial,
+	'parcial1'=>$parcial1
+	));
+
+
+}else{
+	$this->renderPartial('_imprimir2',array(
+	'id'=>$id,
+	'tipo'=>$tipo,
+	'parcial'=>$parcial,
+	'parcial1'=>0
+	));
+}
+/*
+if(isset($_POST['id_area']) && $_POST['id_area'] !="" && $_POST['id_area'] !=0){
+$id_area =$_POST['id_area'];
+$tit4 = "por area:$id_area<br>";
+}else
+{
+$id_area =0;
+$tit4 = "";
+}
+if(isset($_POST['proveedor']) && ($_POST['proveedor'] !="" && $_POST['proveedor'] !='0')){
+$proveedor =$_POST['proveedor'];
+$tit5 = "por proveedor:$proveedor<br>";
+
+}else
+{
+$proveedor ="";
+$tit5 = "";
+
+}*/
+
+
+
 	}
 
 	public function actionBuscar(){
@@ -515,6 +583,39 @@ class BaseCapController extends Controller
 			'model'=>$model,
 		));
 	}
+
+	public function actionInforme($id)
+	{
+
+		$this->render('_informe',array(
+			'id'=>$id,
+		));
+
+	}
+
+	public function actionReqInforme()
+	{
+
+		
+		if(isset($_POST['fecha1'],$_POST['fecha2'],$_POST['tipo'])){
+
+		 $fecha1 =$_POST['fecha1'];
+ 		 $fecha2 =$_POST['fecha2'];
+ 		 $tipo =$_POST['tipo'];
+ 		 $id = $_POST['id'];
+
+		$this->renderPartial('rptconciliacion', array(
+			'id'=>$id,
+			'fecha1'=>$fecha1,
+			'fecha2'=>$fecha2,
+			'tipo'=>$tipo));
+
+		}else{
+			echo "Faltan criterios";
+		}
+
+	}
+
 
 	public function actionAdmin3($id)
 	{

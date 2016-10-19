@@ -75,14 +75,14 @@
 
 		<?php echo $form->labelEx($model,'actividad'); ?>
 		<?php echo $form->textField($model,'actividad',array('class'=>'span6','size'=>80,'maxlength'=>64)); ?>
-						<?php echo $form->error($model,'actividad'); ?>
+		<?php echo $form->error($model,'actividad'); ?>
 
 </div>
 
 <div class="row">
 	<div class="row-right">
 		<?php echo $form->labelEx($model, 'tipo'); ?>
-		<?php echo $form->dropDownList($model, 'tipo', array('falso' => 'Tipo','1' => 'Musico','2' => 'Orquesta','3' => 'Base','4' => 'Honorarios'));?>
+		<?php echo $form->dropDownList($model, 'tipo', array('falso' => 'Tipo','1' => 'Musico','2' => 'Orquesta','3' => 'Base','4' => 'Honorarios','5' => 'Confianza','6' => 'Funcionarios','7' => 'Proveedores','8' => 'Becarios','9' => 'NT'));?>
  		<?php echo $form->error($model, 'tipo'); ?>
 	</div>
 
@@ -92,10 +92,16 @@
  		<?php echo $form->error($model, 'status'); ?>
 	</div>
 
+	
+
 
 </div>
 
-
+<div class="row">
+	   <?php echo $form->labelEx($model,'mail'); ?>
+		<?php echo $form->textField($model,'mail',array('class'=>'span6','size'=>180,'maxlength'=>64)); ?>
+	   <?php echo $form->error($model,'mail'); ?>
+	</div>
 
 
 	<div class="row buttons">

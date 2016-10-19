@@ -101,6 +101,21 @@ $sql = "SELECT nombre from cat_ejercicio where id=$id";
             'value'=>'$data->Banderas->nombre',
             'filter'=>Banderas::model()->options2,
                     ),
+        array(
+            'header' => 'Poliza',
+            'class'=>'CButtonColumn',
+            'template'=>'{confirmar}',
+            'buttons'=>array(
+
+                'confirmar'=>array
+                (
+                'label'=>'entrada',
+                'imageUrl'=>Yii::app()->request->baseUrl.'/images/editar.png',
+                'url'=>'yii::app()->createUrl("baseCap/poliza",array("id"=>$data->id))',
+                ),
+            ),
+
+        ),
 		
 		
 	/*	array(

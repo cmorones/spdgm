@@ -23,6 +23,11 @@ $subprogramas[1] = 'Musico';
 $subprogramas[2] = 'Orquesta';
 $subprogramas[3] = 'Base';
 $subprogramas[4] = 'Honorarios';
+$subprogramas[5] = 'Confianza';
+$subprogramas[6] = 'Funcionarios';
+$subprogramas[7] = 'Proveedores';
+$subprogramas[8] = 'Becarios';
+$subprogramas[9] = 'NT';
 
 
 
@@ -101,7 +106,42 @@ $this->widget('ext.select2.ESelect2',array(
   'data' => $proveedor,
 )); ?>
 </div>
+</div>
 
+<br>
+<div class="row-fluid">
+
+   <div class="span6">
+
+<?php echo CHtml::label('Correo','terms'); ?>
+<?php 
+
+$resultpprov = Proveedores::model()->findAll((array(
+  //  'condition'=>'bandera=1',
+   //'condition'=>"bandera=1 and subprog=$subprog",
+  //  'select'=>'proveedor',
+   // 'group'=>"proveedor",
+  // 'order'=>'proveedor',
+  )));
+        $proveedor = array();
+        $proveedor[0] = 'TODOS';
+        foreach ($resultpprov as $key => $value) {
+            $proveedor[$value->mail] = "$value->mail";
+        }
+
+$this->widget('ext.select2.ESelect2',array(
+  'name'=>'mail',
+   'options'=>array(
+                        'placeholder' => 'Seleccionar correo', 
+                        'width'=>'100%',
+                        'maximumSelectionSize'=>5,
+                        
+
+                    ),
+  'data' => $proveedor,
+)); ?>
+</div>
+</div>
 
 <?php
 echo CHtml::ajaxSubmitButton(

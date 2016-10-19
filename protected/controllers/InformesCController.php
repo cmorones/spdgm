@@ -61,7 +61,8 @@ $tit4 = "";
 
 if(isset($_POST['id_bandera']) && $_POST['id_bandera'] !="" && $_POST['id_bandera'] !=0){
 $id_bandera =$_POST['id_bandera'];
-$tit6 = "por bandera:$id_bandera<br>";
+$nomBAndera = Utilities::infoBandera($id_bandera);
+$tit6 = " de $nomBAndera ";
 }else
 {
 $id_bandera =0;
@@ -107,7 +108,7 @@ $sql = "UPDATE  criterios set subprog='$id_subprog', partida='$id_partida' , are
 $criterios = Yii::app()->db->createCommand($sql)->queryRow();
 
 
-$titulo = "Informe de Gastos por criterios $tit1$tit5$tit7$tit8";
+$titulo = "Informe de Gastos $tit5$tit6$tit7$tit8 $tit1";
 
 /*$fecha1 = $post['fecha1'];
 $fecha2 = $post['fecha2'];*/

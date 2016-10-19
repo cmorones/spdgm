@@ -212,10 +212,22 @@ $tit5 = "";
 
 }
 
+if(isset($_POST['mail']) && ($_POST['mail'] !="" && $_POST['mail'] !='0')){
+$mail =$_POST['mail'];
+$tit6 = "por mail:$mail<br>";
+
+}else
+{
+$mail ="";
+$tit6 = "";
+
+}
+
 $this->renderPartial('_rpt', array(
 			'id_subprog'=>$id_subprog,
 			'id_area'=>$id_area,
-			'proveedor'=>$proveedor));
+			'proveedor'=>$proveedor,
+			'mail'=>$mail));
 
 	}
 }

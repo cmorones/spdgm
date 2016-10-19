@@ -56,7 +56,7 @@ if ($id_periodo==0 && $id_trim==0 ){
 
 }  else {
 
-$trim_ant = $id_trim -2;
+$trim_ant = $id_trim -1;
 
 	$sql ="INSERT INTO presupuesto (
   grupo,
