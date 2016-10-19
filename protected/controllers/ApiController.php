@@ -308,6 +308,19 @@ public function actionPresupuesto2do($id_periodo,$id_trim,$id_partida){
 
 $this->layout=false;
 
+
+/*$criteria = new CDbCriteria;
+//LEFT JOIN
+$criteria->join='LEFT JOIN User c ON c.userid=t.userid';
+// OR INNER JOIN
+$criteria->join="INNER JOIN tbl_user as user ON(user.userid=t.user_id)";
+//Apply To Model
+$models = Modelname::model()->findAll($criteria);
+//Apply To CActiveDataProvider
+return new CActiveDataProvider($model, array(   'criteria'=>$criteria,  ));*/
+
+
+
 if($id_partida==0){
 
 $resultado = Presupuesto::model()->findAll((array(
@@ -324,6 +337,9 @@ $resultado = Presupuesto::model()->findAll((array(
     'order'=>'partida,subprog'
 	)));
 }
+
+
+
 
 $titulo = "Informe Presupuestal General 2013";
 
@@ -3778,11 +3794,11 @@ header('Content-type: application/json');
 
 }
 
-public function actionPtop($id_periodo,$id_trim,$id_subprog,$id_partida) 
+public function actionPtop($id_periodo,$id_trim,$id_subprog,$id_partida,$fecha1,$fecha2) 
 {
 	$this->layout=false;
 
-
+$filtrof="";
 //echo $fecha1;
 $filtro ="id_periodo = $id_periodo and bandera=1 AND ";
 //$filtro .="fecha_ingreso between '$fecha1' and '$fecha2'  AND ";
@@ -3795,6 +3811,12 @@ if($id_subprog !=0){
 if($id_partida !=0){
 	$filtro .="partida = $id_partida AND ";
 }
+
+if($fecha1 !="" && $fecha2 != ""){
+	  //echo "entro al if";
+		$filtrof .="and fecha_ingreso between '$fecha1' and '$fecha2'";
+	}
+
 
 
 
@@ -3847,7 +3869,7 @@ foreach ($resultado as $row) {
 		$pto = Yii::app()->db->createCommand($sql)->queryRow();
 
 		$sql = "SELECT SUM(importe) as gastos
-				 	   from base_cap where id_periodo=$id_periodo and subprog=$row[subprog] and partida=$row[partida] and bandera=1";
+				 	   from base_cap where id_periodo=$id_periodo and subprog=$row[subprog] and partida=$row[partida] and bandera=1 $filtrof";
 
 		$gastos = Yii::app()->db->createCommand($sql)->queryRow();
 
@@ -3877,7 +3899,7 @@ foreach ($resultado as $row) {
    				Yii::app()->end(); 
 }
 
-public function actionPtop2($id_periodo,$id_trim,$id_subprog,$id_partida) 
+public function actionPtop2($id_periodo,$id_trim,$id_subprog,$id_partida,$fecha1,$fecha2) 
 {
 	$this->layout=false;
 
@@ -3946,7 +3968,7 @@ foreach ($resultado as $row) {
 		$pto = Yii::app()->db->createCommand($sql)->queryRow();
 */
 		$sql = "SELECT SUM(importe) as gastos
-				 	   from base_cap where id_periodo=$id_periodo and subprog=$row[subprog] and partida=$row[partida] and bandera=1";
+				 	   from base_cap where id_periodo=$id_periodo and subprog=$row[subprog] and partida=$row[partida] and bandera=1 and (fecha_ingreso BETWEEN '$fecha1' AND '$fecha2')";
 
 		$gastos = Yii::app()->db->createCommand($sql)->queryRow();
 
@@ -3977,17 +3999,23 @@ foreach ($resultado as $row) {
 }
 
 
-public function actionPdfptop($id_periodo,$id_trim,$id_subprog,$id_partida)
+public function actionPdfptop($id_periodo,$id_trim,$id_subprog,$id_partida,$fecha1,$fecha2)
 		{
 
 
 
 //echo $url = "http://localhost/spdgm/index.php/api/ptop?id_subprog=$id_subprog&id_partida=$id_partida";
-$url = "http://localhost/spdgm/index.php/api/ptop?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida";
+$url = "http://localhost/spdgm/index.php/api/ptop?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida&fecha1=$fecha1&fecha2=$fecha2";
 
 //$url = $baseUrl;
 $data = file_get_contents($url);
 $model= CJSON::decode($data);
+
+$sql = "SELECT nombre from cat_ejercicio where id=$id_periodo"; 
+	    $ejercicio = Yii::app()->db->createCommand($sql)->queryRow();
+	    $anio = $ejercicio['nombre'];
+
+$titulo = "Informe Presupuesto por Partida $anio del $fecha1 al $fecha2";
 
 $html ='<style>
    body {
@@ -4064,7 +4092,7 @@ $html .='
              </td>
         </tr>
     </table>
-<h3>Informe Presupuesto por partida</h3>
+<h3>'.$titulo.'</h3>
 
 <table class="table table-striped  table-hover">
 	<tr>

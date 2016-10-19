@@ -1206,23 +1206,25 @@ $id_subprog = $_POST['id_subprog'];
 $id_partida = $_POST['id_partida'];
 $id_periodo = $_POST['id_periodo'];
 $id_trim = $_POST['id_trim'];
-if(isset($id_subprog,$id_partida,$id_periodo,$id_trim)){
+$fecha1 = $_POST['fecha1'];
+$fecha2 = $_POST['fecha2'];
+if(isset($id_subprog,$id_partida,$id_periodo,$id_trim,$fecha1,$fecha2)){
 
 //echo $fecha1;
 //echo $fecha2;
 
 
-if (($id_subprog != '') && ($id_partida != '') && ($id_periodo != '') && ($id_trim != '')) {
+if (($id_subprog != '') && ($id_partida != '') && ($id_periodo != '') && ($id_trim != '') && ($fecha1 != '')  && ($fecha2 != '') ) {
 
 
 $sql = "SELECT nombre from cat_ejercicio where id=$id_periodo"; 
 	    $ejercicio = Yii::app()->db->createCommand($sql)->queryRow();
 	    $anio = $ejercicio['nombre'];
 
-$titulo = "Informe Presupuesto por Partida $anio";
+$titulo = "Informe Presupuesto por Partida $anio del $fecha1 al $fecha2";
 //$titulo = "Informe por Presupuesto 2014";
 
-$url = "http://localhost/spdgm/index.php/api/ptop2?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida";
+$url = "http://localhost/spdgm/index.php/api/ptop2?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida&fecha1=$fecha1&fecha2=$fecha2";
 //$url = $baseUrl;
 $data = file_get_contents($url);
 $model= CJSON::decode($data);
@@ -1231,8 +1233,8 @@ $model= CJSON::decode($data);
 $this->renderPartial('_rptp', array(
 			'model'=>$model,
 			'titulo'=>$titulo,
-			//'fecha1'=>$fecha1,
-			//'fecha2'=>$fecha2,
+			'fecha1'=>$fecha1,
+			'fecha2'=>$fecha2,
 			'id_periodo'=>$id_periodo,
 			'id_trim'=>$id_trim,
 			'id_subprog'=>$id_subprog,

@@ -9,6 +9,8 @@
 												'id_trim'=>$id_trim,
 												'id_periodo'=>$id_periodo,
 												'id_partida'=>$id_partida,
+												'fecha1'=>$fecha1,
+												'fecha2'=>$fecha2,
 
 
 
