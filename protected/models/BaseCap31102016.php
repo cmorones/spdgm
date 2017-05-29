@@ -26,7 +26,7 @@
  * @property Partidas $partida0
  * @property Subprog $subprog0
  */
-class BaseIng extends CActiveRecord
+class BaseCap extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -43,7 +43,7 @@ class BaseIng extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'base_ing';
+		return 'base_cap';
 	}
 
 	/**
@@ -54,10 +54,12 @@ class BaseIng extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fecha_ingreso,cladgam,folio, subprog,area, factura, importe, numerocheque, concepto,  partida, detalle, bandera,  id_periodo, proveedor, rfc', 'required'),
-			array('cladgam,folio,subprog,area, numerocheque,  cantidades, partida, bandera,  id_periodo', 'numerical', 'integerOnly'=>true),
-			array('cantidades, fecha_contrarecibo, no_contrarecibo,', 'safe'),
+			array('fecha_ingreso,cladgam,folio, subprog,area, factura, importe, concepto, partida, detalle, bandera,  id_periodo, registro_pago, proveedor, rfc, clasificacion', 'required'),
+			array('cladgam,folio,subprog,area, numerocheque,  partida, bandera,  id_periodo, registro_pago', 'numerical', 'integerOnly'=>true),
+			array('cantidades, fecha_contrarecibo, no_contrarecibo, cantidades,', 'safe'),
 			array('fecha_contrarecibo', 'default', 'value'=>null),
+			//array('factura+proveedor', 'ext.uniqueMultiColumnValidator', 'caseSensitive' => true)
+
 			//array('folio, subprog, area, numerocheque, partida, id_proveedor, cladgam', 'numerical'concepto, cantidades, partida, 'integerOnly'=>true),
 			//array('importe', 'numerical'),
 			//array('factura, concepto, cantidades, fecha_contrarecibo, no_contrarecibo, detalle, bandera, fecha_ingreso', 'safe'),
@@ -92,7 +94,7 @@ class BaseIng extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'folio' => 'Folio',
-			'subprog' => 'Subprograma',
+			'subprog' => 'Sp',
 			'area' => 'Area',
 			'factura' => 'Facturas',
 			'importe' => 'Importe',
@@ -102,13 +104,14 @@ class BaseIng extends CActiveRecord
 			'partida' => 'Partida',
 			'fecha_contrarecibo' => 'Fecha C/Recibo',
 			'no_contrarecibo' => 'No. C/Recibo',
-			'detalle' => 'Detalle',
+			'detalle' => 'Observaciones',
 			'bandera' => 'Bandera',
-			'fecha_ingreso' => 'Fecha Ingreso',
-			'cladgam' => 'Documento',
+			'fecha_ingreso' => 'Fecha docto',
+			'cladgam' => 'Dto',
 			'id_periodo' => 'Ejercicio',
 			'proveedor' => 'Proveedor',
 			'rfc' => 'Rfc',
+			'registro_pago' => 'Registrar Pago',
 		);
 	}
 
@@ -122,6 +125,7 @@ class BaseIng extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		//$criteria->condition='id_periodo=1'; 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('folio',$this->folio);
 		$criteria->compare('subprog',$this->subprog);
@@ -132,16 +136,19 @@ class BaseIng extends CActiveRecord
 		$criteria->compare('concepto',$this->concepto,true);
 		$criteria->compare('cantidades',$this->cantidades,true);
 		$criteria->compare('partida',$this->partida);
-		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo);
+		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
 		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
 		$criteria->compare('detalle',$this->detalle,true);
 		$criteria->compare('bandera',$this->bandera);
-		$criteria->compare('fecha_ingreso',$this->fecha_ingreso);
+		$criteria->compare('fecha_ingreso',$this->fecha_ingreso,true);
 		$criteria->compare('cladgam',$this->cladgam);
-		$criteria->compare('proveedor',$this->proveedor);
+		$criteria->compare('id_periodo',$this->id_periodo);
+		$criteria->compare('proveedor',$this->proveedor,true);
 		$criteria->compare('rfc',$this->rfc);
 		$criteria->compare('id_periodo',$id);
 		$criteria->order ="id desc";
+		//$criteria->condition = 'id_periodo=:id';
+		//$criteria->params = array(':id' => 2);
 
 
 		return new CActiveDataProvider($this, array(
@@ -149,7 +156,7 @@ class BaseIng extends CActiveRecord
 		));
 	}
 
-		public function search3()
+	public function search2()
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -171,17 +178,65 @@ class BaseIng extends CActiveRecord
 		$criteria->compare('bandera',$this->bandera);
 		$criteria->compare('fecha_ingreso',$this->fecha_ingreso,true);
 		$criteria->compare('cladgam',$this->cladgam);
-		$criteria->compare('id_periodo',20);
-		$criteria->compare('proveedor',$this->proveedor);
+		$criteria->compare('id_periodo',$this->id_periodo);
+		$criteria->compare('proveedor',$this->proveedor,true);
 		$criteria->compare('rfc',$this->rfc);
+		$criteria->compare('id_periodo',19);
+		//$criteria->addSearchCondition('id_periodo','2');
+
+		//$criteria->condition = 'id_periodo=:id';
+		//$criteria->params = array(':id' => 2);
 
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'sort'=>array(
+  				  'defaultOrder'=>'folio DESC',
+ 				 ),
 		));
 	}
 
-		public function search4($id)
+	public function search4()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+		$criteria->compare('id',$this->id);
+		$criteria->compare('folio',$this->folio);
+		$criteria->compare('subprog',$this->subprog);
+		$criteria->compare('area',$this->area);
+		$criteria->compare('factura',$this->factura,true);
+		$criteria->compare('importe',$this->importe);
+		$criteria->compare('numerocheque',$this->numerocheque);
+		$criteria->compare('concepto',$this->concepto,true);
+		$criteria->compare('cantidades',$this->cantidades,true);
+		$criteria->compare('partida',$this->partida);
+		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
+		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
+		$criteria->compare('detalle',$this->detalle,true);
+		$criteria->compare('bandera',$this->bandera);
+		$criteria->compare('fecha_ingreso',$this->fecha_ingreso,true);
+		$criteria->compare('cladgam',$this->cladgam);
+		$criteria->compare('id_periodo',$this->id_periodo);
+		$criteria->compare('proveedor',$this->proveedor,true);
+		$criteria->compare('rfc',$this->rfc);
+		$criteria->compare('id_periodo',20);
+		//$criteria->addSearchCondition('id_periodo','2');
+
+		//$criteria->condition = 'id_periodo=:id';
+		//$criteria->params = array(':id' => 2);
+
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+  				  'defaultOrder'=>'folio DESC',
+ 				 ),
+		));
+	}
+
+	public function search3($id)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -225,39 +280,6 @@ class BaseIng extends CActiveRecord
 		));
 	}
 
-	public function search2()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-		$criteria->condition='id_periodo=19'; 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('folio',$this->folio);
-		$criteria->compare('subprog',$this->subprog);
-		$criteria->compare('area',$this->area);
-		$criteria->compare('factura',$this->factura,true);
-		$criteria->compare('importe',$this->importe);
-		$criteria->compare('numerocheque',$this->numerocheque);
-		$criteria->compare('concepto',$this->concepto,true);
-		$criteria->compare('cantidades',$this->cantidades,true);
-		$criteria->compare('partida',$this->partida);
-		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo);
-		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
-		$criteria->compare('detalle',$this->detalle,true);
-		$criteria->compare('bandera',$this->bandera,true);
-		$criteria->compare('fecha_ingreso',$this->fecha_ingreso);
-		$criteria->compare('cladgam',$this->cladgam);
-		$criteria->compare('id_periodo',$this->id_periodo);
-		$criteria->compare('proveedor',$this->proveedor);
-		$criteria->compare('rfc',$this->rfc);
-
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='base-cap-form')
@@ -267,13 +289,46 @@ class BaseIng extends CActiveRecord
 		}
 	}
 
-	public function getImagen(){
-              $imagen="";
+
+	public function suggest($keyword,$limit=20)
+        {
+                $cadena =ereg_replace(' ','',$keyword);
+                $models=$this->findAll(array(
+                        'condition'=>"folio=:keyword and id_periodo=2",
+                        'order'=>'folio',
+                        'limit'=>$limit,
+                        'params'=>array(':keyword'=>"$cadena")
+                ));
+                $suggest=array();
+                foreach($models as $model) {
+                        $suggest[] = array(
+                                'label'=>$model->folio.' - '.$model->proveedor, // label for dropdown list
+                                'value'=>$model->folio, // value for input field
+                                'id'=>$model->id, // return values from autocomplete
+                                'fecha_ing'=>$model->fecha_ingreso,
+                                'factura'=>$model->factura,
+                                'tipo_docto'=>$model->cladgam,
+                                'importe'=>$model->importe,
+                                'bandera'=>$model->bandera,
+                                'detalle'=>$model->detalle,
+                                'id_proveedor'=>$model->proveedor,
+                                'numerocheque'=>$model->numerocheque,
+                                'fecha_contrarecibo'=>$model->fecha_contrarecibo,
+                                'no_contrarecibo'=>$model->no_contrarecibo,
+                                'clasif'=>$model->clasif,
+                               
+                        );
+                }
+                return $suggest;
+        }
+
+        	public function getImagen(){
+
 	//	$imagen="validado.png";
 		if($this->validado=='1'){
 		$imagen="correcto.png";
 		}
-			if($this->validado=='0'){
+		if($this->validado=='0'){
 		$imagen="incorrecto.png";	
 		}
 

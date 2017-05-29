@@ -110,12 +110,12 @@ class LibroFolios extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('folio',$this->folio);
-		$criteria->compare('fecha_ing',$this->fecha_ing,true);
+		$criteria->compare('fecha_ing',$this->fecha_ing);
 		$criteria->compare('factura',$this->factura,true);
 		$criteria->compare('importe',$this->importe);
 		$criteria->compare('numerocheque',$this->numerocheque);
 		$criteria->compare('partida',$this->partida);
-		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
+		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo);
 		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
 		$criteria->compare('detalle',$this->detalle,true);
 		$criteria->compare('id_proveedor',$this->id_proveedor);

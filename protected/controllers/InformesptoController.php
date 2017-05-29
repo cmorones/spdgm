@@ -291,14 +291,16 @@ public function actionReqMostrar() {
 $id_periodo = $_POST['id_periodo'];
 $id_trim = $_POST['id_trim'];
 $id_partida = $_POST['id_partida'];
+$id_area = $_POST['id_area'];
+$id_subprog = $_POST['id_subprog'];
 
-if(isset($id_periodo,$id_trim,$id_partida)){
+if(isset($id_periodo,$id_trim,$id_partida, $id_area, $id_subprog)){
 
 //echo $fecha1;
 //echo $fecha2;
 
 
-if (($id_periodo != '') && ($id_trim != '') && ($id_partida != '')) {
+if (($id_periodo != '') && ($id_trim != '') && ($id_partida != '') && ($id_area != '') && ($id_subprog != '')) {
 
 $sql = "SELECT cat_ejercicio.nombre from cat_ejercicio where cat_ejercicio.id=$id_periodo"; 
 $ejercicio = Yii::app()->db->createCommand($sql)->queryRow();
@@ -306,15 +308,21 @@ $ejercicio = Yii::app()->db->createCommand($sql)->queryRow();
 $sql = "SELECT trimestres.nombre from trimestres where trimestres.id=$id_trim"; 
 $trimestre = Yii::app()->db->createCommand($sql)->queryRow();
 
-if($id_partida==0){
+/*if($id_partida==0){
 	$part ='';
 }else {
   $part =", partida $id_partida";	
 }
 
+if($id_area==0){
+	$area ='';
+}else {
+  $area =", programa $area";	
+}*/
+
 $trims = "$trimestre[nombre]";
 
-$titulo = "Presupuesto $trims $part";
+$titulo = "Presupuesto $trims";
 //$titulo = "Informe por Presupuesto 2014";
 
 /*$url = "http://132.248.152.124/spdgm/index.php/apiIng/ing?id_ejercicio=$id_ejercicio&id_trim=$id_trim&id_tipo=$id_tipo";
@@ -329,7 +337,10 @@ $this->renderPartial('presupuesto2do', array(
 			//'fecha2'=>$fecha2,
 			'id_periodo'=>$id_periodo,
 			'id_trim'=>$id_trim,
-			'id_partida'=>$id_partida));
+			'id_partida'=>$id_partida,
+			'id_area'=>$id_area,
+			'id_subprog'=>$id_subprog,
+			));
 
 	//}*/
 

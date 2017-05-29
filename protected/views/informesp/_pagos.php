@@ -11,10 +11,10 @@ if($id_area==0){
 	$id_area="";
 }
 if($id_area==1){
-	$id_area="DGMU";
+	$id_area="OFUNAM";
 }
 if($id_area==2){
-	$id_area="OFUNAM";
+	$id_area="DGMU";
 }
 if($id_area==3){
 	$id_area="OJUEM";

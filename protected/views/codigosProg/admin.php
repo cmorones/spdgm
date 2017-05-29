@@ -35,7 +35,12 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		'id',
 		'partida',
-		'subprog',
+		array(
+            'name'=>'subprog',
+            'value'=>'$data->Subprog->alias',
+            'filter'=>Subprogramas::model()->options,
+            'htmlOptions'=>array('style'=>'width: 30px;  text-align:center;'),
+                    ),
 		'codigo',
 		'descripcion',
 		'clave',

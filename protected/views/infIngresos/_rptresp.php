@@ -4,7 +4,7 @@
 
 
 ?>
-<h4><center><?   print CHtml::link('Generar PDF',array('apiIng/pdfIng','id_ejercicio'=>$id_ejercicio,'id_trim'=>$id_trim,'id_tipo'=>$id_tipo, 'fecha1'=>$fecha1, 'fecha2'=>$fecha2)); ?></center></h4>
+<h4><center><?   print CHtml::link('Generar PDF',array('apiIng/pdfIng','id_ejercicio'=>$id_ejercicio,'id_trim'=>$id_trim,'id_tipo'=>$id_tipo)); ?></center></h4>
 
 
 <h4><center><?=$titulo?></center></h4>

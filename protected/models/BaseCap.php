@@ -28,6 +28,8 @@
  */
 class BaseCap extends CActiveRecord
 {
+	
+	public $fecha_search;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -56,7 +58,7 @@ class BaseCap extends CActiveRecord
 		return array(
 			array('fecha_ingreso,cladgam,folio, subprog,area, factura, importe, concepto, partida, detalle, bandera,  id_periodo, registro_pago, proveedor, rfc, clasificacion', 'required'),
 			array('cladgam,folio,subprog,area, numerocheque,  partida, bandera,  id_periodo, registro_pago', 'numerical', 'integerOnly'=>true),
-			array('cantidades, fecha_contrarecibo, no_contrarecibo, cantidades,', 'safe'),
+			array('cantidades, fecha_contrarecibo, no_contrarecibo, fecha_search, cantidades,', 'safe'),
 			array('fecha_contrarecibo', 'default', 'value'=>null),
 			//array('factura+proveedor', 'ext.uniqueMultiColumnValidator', 'caseSensitive' => true)
 
@@ -106,12 +108,13 @@ class BaseCap extends CActiveRecord
 			'no_contrarecibo' => 'No. C/Recibo',
 			'detalle' => 'Observaciones',
 			'bandera' => 'Bandera',
-			'fecha_ingreso' => 'Fecha docto',
+			'fecha_ingreso' => 'Fecha',
 			'cladgam' => 'Dto',
 			'id_periodo' => 'Ejercicio',
 			'proveedor' => 'Proveedor',
 			'rfc' => 'Rfc',
 			'registro_pago' => 'Registrar Pago',
+			'fecha_search'=>'Fecha',
 		);
 	}
 
@@ -136,11 +139,11 @@ class BaseCap extends CActiveRecord
 		$criteria->compare('concepto',$this->concepto,true);
 		$criteria->compare('cantidades',$this->cantidades,true);
 		$criteria->compare('partida',$this->partida);
-		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
+		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo);
 		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
 		$criteria->compare('detalle',$this->detalle,true);
 		$criteria->compare('bandera',$this->bandera);
-		$criteria->compare('fecha_ingreso',$this->fecha_ingreso,true);
+		$criteria->compare('fecha_ingreso',$this->fecha_ingreso);
 		$criteria->compare('cladgam',$this->cladgam);
 		$criteria->compare('id_periodo',$this->id_periodo);
 		$criteria->compare('proveedor',$this->proveedor,true);

@@ -4048,7 +4048,7 @@ public function actionPdfptop($id_periodo,$id_trim,$id_subprog,$id_partida,$fech
 
 
 //echo $url = "http://localhost/spdgm/index.php/api/ptop?id_subprog=$id_subprog&id_partida=$id_partida";
-$url = "http://localhost/spdgm/index.php/api/ptop2?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida&fecha1=$fecha1&fecha2=$fecha2";
+$url = "http://localhost/spdgm/index.php/api/ptop?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida&fecha1=$fecha1&fecha2=$fecha2";
 
 //$url = $baseUrl;
 $data = file_get_contents($url);
@@ -4147,7 +4147,6 @@ $html .='
 	</tr>';
 
 
-
 foreach ($model as $indice => $valor) {
 
 
@@ -4169,7 +4168,7 @@ foreach ($model as $indice => $valor) {
 				foreach ($valor2 as $indice3 => $valor3) {
 				//	echo ("El indice3 $indice3 tiene el valor: $valor3<br>");
 
-					$html .="<tr>
+			$html .="<tr>
 	 	
 	 		
 	 		<td  align=\"right\">$indice3</td>
@@ -4195,7 +4194,7 @@ foreach ($model as $indice => $valor) {
  		$original =number_format($model[$indice][$indice2][$indice3][$indice4][$indice5]['original'],2);
  		$ejercido =number_format($model[$indice][$indice2][$indice3][$indice4][$indice5]['ejercido'],2);
  		$disponible =number_format($model[$indice][$indice2][$indice3][$indice4][$indice5]['disponible'],2);
-		$html .="<tr>
+	$html .="<tr>
 	 	
 	 		
 	 		<td  align=\"right\"></td>
@@ -4228,7 +4227,7 @@ foreach ($model as $indice => $valor) {
 			  	if ($ejercidop==0) { $ejercidop =''; }
 			  	if ($disponiblep==0) { $disponiblep =''; }
 						
-						$html .="<tr>
+		$html .="<tr>
 	 		
 	 		<td  align=\"right\"></td>
 	 		<td  align=\"right\"><b>Subtotal:</b></td>
@@ -4243,7 +4242,7 @@ foreach ($model as $indice => $valor) {
 	
 	 	}
 
-	 	$presupuestot = number_format($model[$indice]['originalt'],2);
+		$presupuestot = number_format($model[$indice]['originalt'],2);
 			$ejercidot = number_format($model[$indice]['ejercidot'],2);
 			$disponiblet = number_format($model[$indice]['disponiblet'],2);
 

@@ -45,7 +45,7 @@ if($perfil==1){
                             array('label'=>'Proveedores', 'url'=>array('/proveedores/admin', 'view'=>'forms')),
                             array('label'=>'Subprogramas', 'url'=>array('/subprogramas/admin', 'view'=>'forms')),
 
-                            //array('label'=>'Generar presupuesto trimestral', 'url'=>array('/presupuesto/generar', 'view'=>'forms')),
+                            array('label'=>'Generar presupuesto trimestral', 'url'=>array('/presupuesto/generar', 'view'=>'forms')),
                            // array('label'=>'Eliminar presupuesto trimestral', 'url'=>array('/presupuesto/eliminar', 'view'=>'forms')),
                             array('label'=>'Codigos Programaticos', 'url'=>array('/codigosProg/admin', 'view'=>'forms')),
                            // array('label'=>'Ejercicios', 'url'=>array('/catEjercicio/admin', 'view'=>'forms')),
@@ -132,7 +132,8 @@ if($perfil==1){
                           array('label'=>'Informe general Detalle', 'url'=>array('/informesC/index', 'view'=>'forms')),
                           
                         // array('label'=>'Informe por criterios2 2014', 'url'=>array('/informesC/index', 'view'=>'forms')),
-                          array('label'=>'Informe General Presupuesto por Subprograma, Area', 'url'=>array('/informesfa/index', 'view'=>'forms')),
+                          array('label'=>'Informe General Presupuesto  por Subprograma, Area por Mes', 'url'=>array('/informesfa/index', 'view'=>'forms')),
+                          array('label'=>'Informe General Presupuesto por Subprograma, Area, Totalizado', 'url'=>array('/informesfa/index2', 'view'=>'forms')),
                          // array('label'=>'Consulta Presupuestal 2014', 'url'=>array('/informesCp/index', 'view'=>'forms')),
                          // array('label'=>'Consulta Ejercido', 'url'=>array('/informesCp/ejercido', 'view'=>'forms')),
                          

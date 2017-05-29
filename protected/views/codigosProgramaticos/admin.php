@@ -1,15 +1,11 @@
 <?php
-/* @var $this CodigosProgramaticosController */
-/* @var $model CodigosProgramaticos */
+/* @var $this CodigosProgController */
+/* @var $model CodigosProg */
 
-$this->breadcrumbs=array(
-	'Codigos Programaticoses'=>array('index'),
-	'Manage',
-);
 
 $this->menu=array(
-	array('label'=>'List CodigosProgramaticos', 'url'=>array('index')),
-	array('label'=>'Create CodigosProgramaticos', 'url'=>array('create')),
+	//array('label'=>'List CodigosProg', 'url'=>array('index')),
+	array('label'=>'Agregar Codigo Programatico', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +14,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#codigos-programaticos-grid').yiiGridView('update', {
+	$('#codigos-prog-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,28 +22,25 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Codigos Programaticoses</h1>
+<h3>Administrar Codigos Programaticos</h3>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
+
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'codigos-programaticos-grid',
+	'id'=>'codigos-prog-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
 		'partida',
-		'subprog',
+		array(
+            'name'=>'subprog',
+            'value'=>'$data->Subprog->id',
+            'filter'=>Subprogramas::model()->options,
+            'htmlOptions'=>array('style'=>'width: 30px;  text-align:center;'),
+                    ),
 		'codigo',
 		'descripcion',
 		'clave',

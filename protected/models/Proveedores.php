@@ -43,7 +43,8 @@ class Proveedores extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('mail, nombre, domicilio, colonia, telefono, codigo, rfc, entidad, actividad', 'required'),
+			array('mail, nombre, domicilio, colonia, telefono, codigo, rfc, entidad, actividad', 'required','message'=>'Este campo es requerido'),
+			array('nombre', 'unique','message'=>'Proveedor ya existe en la base de datos'),
 			array('curp, tipo, status', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

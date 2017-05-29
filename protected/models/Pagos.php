@@ -127,7 +127,7 @@ class Pagos extends CActiveRecord
 		$criteria->compare('fecha_pago',$this->fecha_pago,true);
 		$criteria->compare('cheque',$this->cheque);
 		$criteria->compare('factura',$this->factura,true);
-		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
+		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo);
 		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
 		$criteria->compare('fecha_cheque',$this->fecha_cheque,true);
 		$criteria->compare('banco',$this->banco);
@@ -195,7 +195,7 @@ class Pagos extends CActiveRecord
 		$criteria->compare('fecha_pago',$this->fecha_pago,true);
 		$criteria->compare('cheque',$this->cheque);
 		$criteria->compare('factura',$this->factura,true);
-		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo,true);
+		$criteria->compare('fecha_contrarecibo',$this->fecha_contrarecibo);
 		$criteria->compare('no_contrarecibo',$this->no_contrarecibo,true);
 		$criteria->compare('fecha_cheque',$this->fecha_cheque,true);
 		$criteria->compare('banco',$this->banco);

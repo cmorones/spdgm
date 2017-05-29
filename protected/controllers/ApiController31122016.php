@@ -304,7 +304,7 @@ echo json_encode($json);
 Yii::app()->end(); 
 }
 
-public function actionPresupuesto2do($id_periodo,$id_trim,$id_partida,$id_area,$id_subprog){
+public function actionPresupuesto2do($id_periodo,$id_trim,$id_partida){
 
 $this->layout=false;
 
@@ -321,65 +321,22 @@ return new CActiveDataProvider($model, array(   'criteria'=>$criteria,  ));*/
 
 
 
-if($id_partida==0 && $id_area==0 && $id_subprog==0){
+if($id_partida==0){
 
 $resultado = Presupuesto::model()->findAll((array(
     'condition'=>"id_periodo=$id_periodo and id_trimestre=$id_trim and presupuesto<>0",
-    /*'condition'=>"id_periodo=".$id_periodo."", 
-    'condition'=>"id_trimestre=".$id_trim."",
-    'condition'=>"presupuesto<>0",*/
    // 'condition'=>"id_periodo=$id_periodo",
    // 'condition'=>"id_trimestre=$id_trim",
     'order'=>'partida,subprog'
 	)));
-}elseif($id_partida==0 && $id_area==0 && $id_subprog>0) {
+}else {
 	$resultado = Presupuesto::model()->findAll((array(
-	'condition'=>"id_periodo=$id_periodo and id_trimestre=$id_trim and presupuesto<>0 and subprog=".$id_subprog."",
-    //'condition'=>"id_periodo=".$id_periodo."", 
-    //'condition'=>"id_trimestre=".$id_trim."", 
-    //'condition'=>"subprog=".$id_subprog."",
-    //'condition'=>"presupuesto<>0", 
-   // 'condition'=>"id_trimestre=$id_trim",
-    'order'=>'partida,subprog'
-	)));
-}elseif($id_partida==0 && $id_area>0 && $id_subprog==0) {
-	$resultado = Presupuesto::model()->findAll((array(
-	'condition'=>"id_periodo=$id_periodo and id_trimestre=$id_trim and presupuesto<>0 and area=".$id_area."",
-    //'condition'=>"id_periodo=".$id_periodo."", 
-    //'condition'=>"id_trimestre=".$id_trim."", 
-    //'condition'=>"subprog=".$id_subprog."",
-    //'condition'=>"presupuesto<>0", 
+    'condition'=>"id_periodo=$id_periodo and id_trimestre=$id_trim and partida=$id_partida and presupuesto<>0",
+   // 'condition'=>"id_periodo=$id_periodo", AND 
    // 'condition'=>"id_trimestre=$id_trim",
     'order'=>'partida,subprog'
 	)));
 }
-elseif($id_partida==0 && $id_area>0 && $id_subprog>0) {
-	$resultado = Presupuesto::model()->findAll((array(
-	'condition'=>"id_periodo=$id_periodo and id_trimestre=$id_trim and presupuesto<>0 and area=".$id_area." and subprog=".$id_subprog."",
-    /*'condition'=>"id_periodo=".$id_periodo."", 
-    'condition'=>"id_trimestre=".$id_trim."", 
-    'condition'=>"subprog=".$id_subprog."", 
-    'condition'=>"area=".$id_area."",
-    'condition'=>"presupuesto<>0"*/
-   // 'condition'=>"id_trimestre=$id_trim",
-    'order'=>'partida,subprog'
-	)));
-}
-
-elseif($id_partida>0 && $id_area>0 && $id_subprog>0) {
-	$resultado = Presupuesto::model()->findAll((array(
-	'condition'=>"id_periodo=$id_periodo and id_trimestre=$id_trim and presupuesto<>0 and partida=".$id_partida." and area=".$id_area." and subprog=".$id_subprog."",
-    /*'condition'=>"id_periodo=".$id_periodo."", 
-    'condition'=>"id_trimestre=".$id_trim."",  
-    'condition'=>"partida=".$id_partida."", 
-    'condition'=>"subprog=".$id_subprog."", 
-    'condition'=>"area=".$id_area."",
-    'condition'=>"presupuesto<>0",*/
-   // 'condition'=>"id_trimestre=$id_trim",
-    'order'=>'partida,subprog'
-	)));
-}
-
 
 
 
@@ -4048,7 +4005,7 @@ public function actionPdfptop($id_periodo,$id_trim,$id_subprog,$id_partida,$fech
 
 
 //echo $url = "http://localhost/spdgm/index.php/api/ptop?id_subprog=$id_subprog&id_partida=$id_partida";
-$url = "http://localhost/spdgm/index.php/api/ptop2?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida&fecha1=$fecha1&fecha2=$fecha2";
+$url = "http://localhost/spdgm/index.php/api/ptop?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida&fecha1=$fecha1&fecha2=$fecha2";
 
 //$url = $baseUrl;
 $data = file_get_contents($url);
@@ -4147,7 +4104,6 @@ $html .='
 	</tr>';
 
 
-
 foreach ($model as $indice => $valor) {
 
 
@@ -4169,7 +4125,7 @@ foreach ($model as $indice => $valor) {
 				foreach ($valor2 as $indice3 => $valor3) {
 				//	echo ("El indice3 $indice3 tiene el valor: $valor3<br>");
 
-					$html .="<tr>
+			$html .="<tr>
 	 	
 	 		
 	 		<td  align=\"right\">$indice3</td>
@@ -4195,7 +4151,7 @@ foreach ($model as $indice => $valor) {
  		$original =number_format($model[$indice][$indice2][$indice3][$indice4][$indice5]['original'],2);
  		$ejercido =number_format($model[$indice][$indice2][$indice3][$indice4][$indice5]['ejercido'],2);
  		$disponible =number_format($model[$indice][$indice2][$indice3][$indice4][$indice5]['disponible'],2);
-		$html .="<tr>
+	$html .="<tr>
 	 	
 	 		
 	 		<td  align=\"right\"></td>
@@ -4228,7 +4184,7 @@ foreach ($model as $indice => $valor) {
 			  	if ($ejercidop==0) { $ejercidop =''; }
 			  	if ($disponiblep==0) { $disponiblep =''; }
 						
-						$html .="<tr>
+		$html .="<tr>
 	 		
 	 		<td  align=\"right\"></td>
 	 		<td  align=\"right\"><b>Subtotal:</b></td>
@@ -4243,7 +4199,7 @@ foreach ($model as $indice => $valor) {
 	
 	 	}
 
-	 	$presupuestot = number_format($model[$indice]['originalt'],2);
+		$presupuestot = number_format($model[$indice]['originalt'],2);
 			$ejercidot = number_format($model[$indice]['ejercidot'],2);
 			$disponiblet = number_format($model[$indice]['disponiblet'],2);
 
@@ -5282,14 +5238,11 @@ $mpdf->Output("$report",EYiiPdf::OUTPUT_TO_DOWNLOAD);
 }
 
 
-public function actionPresupuesto2dopdf($id_periodo,$id_trim,$id_partida,$titulo,$id_area,$id_subprog){
+public function actionPresupuesto2dopdf($id_periodo,$id_trim,$id_partida,$titulo){
 
 
 
-//$url = "http://localhost/spdgm/index.php/api/presupuesto2do?id_periodo=$id_periodo&id_trim=$id_trim&id_partida=$id_partida";
-
-$url = "http://localhost/spdgm/index.php/api/presupuesto2do?id_periodo=$id_periodo&id_trim=$id_trim&id_partida=$id_partida&id_area=$id_area&id_subprog=$id_subprog";
-
+$url = "http://localhost/spdgm/index.php/api/presupuesto2do?id_periodo=$id_periodo&id_trim=$id_trim&id_partida=$id_partida";
 //$url = $baseUrl;
 $data = file_get_contents($url);
 $model= CJSON::decode($data);
@@ -5391,18 +5344,17 @@ foreach ($model as $indice => $valor) {
 	//	echo ("El indice2 $indice2 tiene el valor: $valor2<br>");
 		if (is_array($valor2)){
 				foreach ($valor2 as $indice3 => $valor3) {
-					
-					$sql = "SELECT descripcion from partidas where codigo=$indice3"; 
-					$name_part = Yii::app()->db->createCommand($sql)->queryRow();
-					$html .="<tr>
+				//	echo ("El indice3 $indice3 tiene el valor: $valor3<br>");
+
+								$html .="<tr>
 	 		<td><center><b>$indice3<b></center></td>
-	 		<td  align=\"left\" colspan=\"4\">".$name_part['descripcion']."</td>
-	 		
+	 		<td  align=\"right\"></td>
+	 		<td  align=\"right\"></td>
+	 		<td  align=\"right\"></td>
+	 		<td  align=\"right\"></td>
 	 		
 	 		
 	 	</tr>";
-
-			
 	 
 	 	if (is_array($valor3)){
 				foreach ($valor3 as $indice4 => $valor4) {
@@ -5621,7 +5573,7 @@ $html .='
 		<th>Fecha Contrarecibo</th>
 		<th width=60>Fecha cheque</th>
 		<th>Importe</th>
-		<th></th>
+		<th>Pagado</th>
 		
 	</tr>';
 
@@ -5650,7 +5602,7 @@ $html .="<tr>
 		<td>$row->fecha_contrarecibo</td>
 		<td width='60' >$row->fecha_cheque</td>
 		<td align=right>$pago_importe</td>
-		<td></td>
+		<td><center><img class=img-responsive tpad src=$imagen></center></td>
 		
 	</tr>";
   $num++;

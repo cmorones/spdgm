@@ -190,7 +190,7 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                                 'dayNamesMin' => array('Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'),
                                 'yearRange' => "$anio:2015",
                                  'minDate' => "$anio-01-01",      // minimum date
-                                 'maxDate' => "2016-12-31",
+                                 'maxDate' => "2017-12-31",
                             ),
                             'htmlOptions' => array(
                                 'style' => 'height:20px;',

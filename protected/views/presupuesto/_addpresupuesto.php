@@ -12,7 +12,7 @@
 
 <div class="span3">
 <?php
-echo CHtml::dropDownList('id_periodo','', array(0=>'Seleccionar',18=>'2013',19=>'2014',20=>'2015',21=>'2016'),
+echo CHtml::dropDownList('id_periodo','', array(0=>'Seleccionar',18=>'2013',19=>'2014',20=>'2015',21=>'2016',22=>'2017'),
 array(
   'id'=>'id_periodo',
 'ajax' => array(

@@ -1,6 +1,6 @@
 <?php
 
-$url = "http://localhost/spdgm/index.php/api/presupuesto2do?id_periodo=$id_periodo&id_trim=$id_trim&id_partida=$id_partida";
+$url = "http://localhost/spdgm/index.php/api/presupuesto2do?id_periodo=$id_periodo&id_trim=$id_trim&id_partida=$id_partida&id_area=$id_area&id_subprog=$id_subprog";
 //$url = $baseUrl;
 $data = file_get_contents($url);
 $model= CJSON::decode($data);
@@ -13,6 +13,9 @@ $model= CJSON::decode($data);
 												'id_partida'=>$id_partida,
 												'id_periodo'=>$id_periodo,
 												'id_trim'=>$id_trim,
+												'id_area'=>$id_area,
+												'id_subprog'=>$id_subprog,
+
 												'titulo'=>$titulo
 
 
@@ -23,7 +26,7 @@ $model= CJSON::decode($data);
 <div class="span10">
 <table class="table table-striped  table-hover">
 	<tr>
-		<th>Partidad</th>
+		<th>Partida</th>
 		<th>Codigo</th>
 		<th>CV</th>
 		<th>Programa</th>
@@ -39,13 +42,13 @@ foreach ($model as $indice => $valor) {
 		if (is_array($valor2)){
 				foreach ($valor2 as $indice3 => $valor3) {
 				//	echo ("El indice3 $indice3 tiene el valor: $valor3<br>");
+					$sql = "SELECT descripcion from partidas where codigo=$indice3"; 
+					$name_part = Yii::app()->db->createCommand($sql)->queryRow();
 
 								echo "<tr>
 	 		<td><center><b>$indice3<b></center></td>
-	 		<td  align=\"right\"></td>
-	 		<td  align=\"right\"></td>
-	 		<td  align=\"right\"></td>
-	 		<td  align=\"right\"></td>
+	 		<td  align=\"left\" colspan=\"4\">".$name_part['descripcion']."</td>
+	 		
 	 		
 	 		
 	 	</tr>";

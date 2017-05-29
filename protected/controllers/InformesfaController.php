@@ -27,7 +27,28 @@ $this->render('_criterios',array('fecha1'=>$fecha1, 'fecha2'=>$fecha2, 'area'=>$
 	}
 
 
+public function actionIndex2()
+		{
+if(isset($_POST['fecha1'],$_POST['fecha2']))
+{
+ 
+ $area   =$_POST['id'];
+ $fecha1 =$_POST['fecha1'];
+ $fecha2 =$_POST['fecha2'];
+ // $id_bandera  =$_POST['id_bandera'];
 
+$this->render('_criterios2',array('fecha1'=>$fecha1, 'fecha2'=>$fecha2, 'area'=>$area));
+
+} else {
+ $area =0;
+ $fecha1 ='';
+ $fecha2 ='';
+ //$id_bandera   =0;
+$this->render('_criterios2',array('fecha1'=>$fecha1, 'fecha2'=>$fecha2, 'area'=>$area));
+
+}
+
+	}
 	public function actionIndex22()
 	{
 
@@ -327,6 +348,94 @@ $this->renderPartial('_rpt', array(
 			'id_trim'=>$id_trim,
 			'id_subprog'=>$id_subprog,
 			'id_partida'=>$id_partida,
+			'id_area'=>$id_area,
+			'fecha1'=>$fecha1,
+			'fecha2'=>$fecha2
+			));
+
+//echo $model;
+/*$this->renderPartial('_rpt', array(
+			'model'=>$model,
+			'titulo'=>$titulo,
+			//'fecha1'=>$fecha1,
+			//'fecha2'=>$fecha2,
+			'id_periodo'=>$id_periodo,
+			'id_trim'=>$id_trim,
+			'id_subprog'=>$id_subprog
+			));*/
+
+	//}
+
+
+	}else {
+
+?>
+</div>
+</div>
+<div class="alert alert-info">
+<button class="close" data-dismiss="alert" type="button">×</button>
+<strong>Atención!!</strong>
+Debe seleccionar todos los  criterios de busqueda.
+</div>
+<?php
+
+}
+
+}
+}
+
+public function actionReqTest05() {
+ //echo CHtml::encode(print_r($_POST, true));
+ //die();
+$fecha1 = $_POST['fecha1'];
+$fecha2 = $_POST['fecha2'];
+//$_POST['id'];
+$id_subprog = $_POST['id_subprog'];
+$id_periodo = $_POST['id_periodo'];
+$id_trim = $_POST['id_trim'];
+$id_area = $_POST['id_area'];
+$id_trim = $_POST['id_trim'];
+$id_partida = $_POST['id_partida'];
+$id_bandera = $_POST['id_bandera'];
+
+
+
+if(isset($id_subprog,$id_periodo,$id_trim,$id_area,$id_bandera)){
+
+//echo $fecha1;
+//echo $fecha2;
+
+
+if (($id_subprog != '') && ($id_periodo != '') && ($id_trim != '') && ($id_area != '')) {
+
+$sql = "SELECT nombre  from subprog where id=$id_subprog"; 
+$nomarea = Yii::app()->db->createCommand($sql)->queryRow();
+
+$sql = "SELECT nombre  from banderas where id=1"; 
+$nombandera = Yii::app()->db->createCommand($sql)->queryRow();
+
+$sql = "SELECT nombre  from cat_areas where id=$id_area"; 
+$nomarea1 = Yii::app()->db->createCommand($sql)->queryRow();
+
+
+	$titulo = "$nombandera[nombre] <br>$nomarea[nombre]<br>$nomarea1[nombre]<br> ";
+
+
+//$titulo = "Informe Presupuesto por Partida 2014";
+//$titulo = "Informe por Presupuesto 2014";
+//echo $url = "http://localhost/spdgm/index.php/api/subprog?fecha1=$fecha1&fecha2=$fecha2&id_partida=$id_partida&subprog=$id_subprog&id_periodo=$id_periodo&id_trim=$id_trim&id_area=$id_area";
+//$url = "http://localhost/spdgm/index.php/api/ptop?id_periodo=$id_periodo&id_trim=$id_trim&id_subprog=$id_subprog&id_partida=$id_partida";
+//$url = $baseUrl;
+//$data = file_get_contents($url);
+//$model= CJSON::decode($data);
+
+
+$this->renderPartial('_rpt2', array(
+			'id_periodo'=>$id_periodo,
+			'id_trim'=>$id_trim,
+			'id_subprog'=>$id_subprog,
+			'id_partida'=>$id_partida,
+			'id_bandera'=>$id_bandera,
 			'id_area'=>$id_area,
 			'fecha1'=>$fecha1,
 			'fecha2'=>$fecha2

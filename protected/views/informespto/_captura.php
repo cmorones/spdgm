@@ -53,7 +53,7 @@ echo CHtml::dropDownList('id_trim','', array());
  ?> 
 </div>
 
-<div class="span3">
+<div class="span2">
 	<?php 
 
  		$resulpartida = Partidas::model()->findAll();
@@ -76,7 +76,42 @@ echo CHtml::dropDownList('id_trim','', array());
 )); ?>
 </div>
 
-<div class="span3">
+<div class="span2">
+  <?php echo CHtml::label('Subprograma','terms');
+
+$subprogramas = array();
+$subprogramas[0] = 'TODOS';
+
+$resultpprov = Subprogramas::model()->findAll((array(
+    'condition'=>'status=1',
+   //'condition'=>"bandera=1 and subprog=$subprog",
+   // 'condition'=>"bandera=$id_bandera and area=$subprog and (fecha_ingreso BETWEEN '$fecha1' AND '$fecha2')",
+    'order'=>'id'
+  )));
+
+ foreach ($resultpprov as $key => $value) {
+            $subprogramas[$value->id] = "$value->alias";
+        }
+
+   ?>
+
+
+<?php $this->widget('ext.select2.ESelect2',array(
+  'name'=>'id_subprog',
+   'options'=>array(
+                        'placeholder' => 'Seleccionar Subprograma', 
+                        'width'=>'100%',
+                        'maximumSelectionSize'=>5,
+                        
+
+                    ),
+
+   /*findAll('status=1',array('order'=>'id'))*/
+  'data' => $subprogramas,
+)); ?>
+</div>
+
+<div class="span2">
   <?php echo CHtml::label('Area','terms'); ?>
 <?php 
 $areas = array();
